@@ -1,0 +1,10 @@
+---
+
+- name: install SSH key (shapeofwater)
+  sudo: no
+  authorized_key:
+    key: "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDX6llgTR39H5fm9oqjZ44tAsFVk0yZhLHU+8QbMBK7s3PKqrc0dDIb/7iVTyKHOn4hNru3cd60S1tJUPZCxDBy9/C9p01c804rzoLvzpUFKJDxgPbZjl7pSn7gf/dPJ+R9wzusS6EvmZTpYetv0Jv/YgFDQwOdG1E33bR27uHsg3EBTUnelQJIqW1gCVEiVh0HUol3G2jY/u0dbVzXVq7oJSKBBNZE9XUkKJoKaOK2eR4UN7Gc4buIfXGjUpc+XCtKt21Dkv23Y4EAFwoHOYHiSfRiqnjJzzetcPLiDyyvajJ7Mn9L8eQRYkAz0Odq5ua8Q8ewP5wscr8zDbMej46v erich@shapeofwater"
+    user: "{{ansible_user_id}}"
+    state: present
+
+

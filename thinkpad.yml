@@ -1,0 +1,8 @@
+---
+
+- hosts: localhost
+  connection: local
+  roles:
+    - common
+    - { role: debian, when: ansible_os_family == "Debian" }
+    - laptop

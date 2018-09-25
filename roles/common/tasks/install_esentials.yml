@@ -1,0 +1,11 @@
+---
+
+- name: Install essentials (Debian)
+  sudo: yes
+  when: ansible_os_family == "Debian"
+  apt: name="{{item}}" state=present
+  with_items:
+    - build-essential
+    - tmux
+    - git
+    - libz-dev

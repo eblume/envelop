@@ -1,0 +1,12 @@
+# ungrouped
+localhost
+
+# [webservers]
+# foo
+
+# [dbservers]
+# bar
+
+# [servers:children]
+# webservers
+# dbservers

@@ -1,0 +1,18 @@
+---
+# TODO - key signing with `apt_key: url=https://foo.key state=present`
+
+- name: 'Add contrib and non-free debian apt repositories.'
+  apt_repository:
+    repo: "{{ item }}"
+    state: present
+    update_cache: yes
+  with_items:
+    - 'deb http://deb.debian.org/debian stretch main contrib non-free'
+    - 'deb-src http://deb.debian.org/debian stretch main contrib non-free'
+    - 'deb http://deb.debian.org/debian-security/ stretch/updates main contrib non-free'
+    - 'deb-src http://deb.debian.org/debian-security/ stretch/updates main contrib non-free'
+    - 'deb http://deb.debian.org/debian stretch-updates main contrib non-free'
+    - 'deb-src http://deb.debian.org/debian stretch-updates main contrib non-free'
+
+- name: 'Install iwlwifi driver'
+  apt: name='firmware-iwlwifi'  # TODO - fix version
