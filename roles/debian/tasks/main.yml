@@ -1,11 +1,16 @@
 ---
 
 - name: Install fish shell
-  sudo: yes
+  become: yes
   apt: name=fish state=present
 
 - name: change shell to fish
-  sudo: yes
+  become: yes
   user:
     name: '{{ansible_user_id}}'
     shell: /usr/bin/fish
+
+# TODO - full user management
+
+
+- include: apt.yml

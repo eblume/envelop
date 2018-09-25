@@ -1,0 +1,21 @@
+---
+
+- name: 'Verify the GPG keys of the non-free debian apt repositories'
+  become: yes
+  apt_key:
+    state: present
+    keyserver: pgp.mit.edu
+    id: EF0F382A1A7B6500
+
+- name: 'Add contrib and non-free debian apt repositories'
+  become: yes
+  apt_repository:
+    repo: "{{ item }}"
+    state: present
+    update_cache: no
+  with_items:
+    - 'deb http://deb.debian.org/debian stretch main contrib non-free'
+    - 'deb http://deb.debian.org/debian-security/ stretch/updates main contrib non-free'
+    - 'deb http://deb.debian.org/debian stretch-updates main contrib non-free'
+  notify:
+    - update apt cache
