@@ -1,0 +1,11 @@
+---
+
+- name: Install fish shell
+  sudo: yes
+  apt: name=fish state=present
+
+- name: change shell to fish
+  sudo: yes
+  user:
+    name: '{{ansible_user_id}}'
+    shell: /usr/bin/fish
