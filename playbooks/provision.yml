@@ -20,6 +20,7 @@
     - { role: debian, when: ansible_os_family == "Debian" }
     - laptop
   vars:
+    # TODO - decredential this key :(
     datadog_api_key: "0109e06a505191089b6b8c638d29fa3c"
     # datadog_agent_version: "1:6.0.0-1"
     datadog_config:
