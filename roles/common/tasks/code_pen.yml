@@ -1,0 +1,13 @@
+---
+
+- name: Code Pen
+  block: 
+    - name: Create code pen directory
+      file: path={{ CODE_PEN_DIR }} state=directory
+
+    - name: Personal code space
+      file: path={{ NONWORK_CODE_DIR }} state=directory
+
+    - name: Work code space
+      file: path={{ WORK_CODE_DIR }} state=directory
+

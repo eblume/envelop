@@ -1,9 +1,6 @@
 ---
 
 - hosts: localhost
-  # vars:
-  #   foo: 1
-  #   bar: 2
   # remote_user: root
   # tasks:
   # - name: example one-off task
@@ -20,6 +17,11 @@
     - { role: debian, when: ansible_os_family == "Debian" }
     - laptop
   vars:
+    ansible_check_mode: false  # No idea wtf is going on with this
+    code_pen_dir: "{{ ansible_env.HOME }}/code"
+    work_code_dir: "{{ code_pen_dir }}/patreon"
+    nonwork_code_dir: "{{ code_pen_dir }}/notreon"
+    user_bin_dir: "{{ ansible_env.HOME }}/my_bin"
     # TODO - decredential this key :(
     datadog_api_key: "0109e06a505191089b6b8c638d29fa3c"
     # datadog_agent_version: "1:6.0.0-1"
@@ -31,7 +33,7 @@
     datadog_checks:
       # dropped in to /etc/datadog-agent/conf.d/<check_name>.d/conf.yaml for agent6
       process:
-        init_config:
+        # init_config:
         instances:
           - name: ssh
             search_string: ['ssh', 'sshd' ]
