@@ -3,11 +3,10 @@
 - name: Code Pen
   block: 
     - name: Create code pen directory
-      file: path={{ CODE_PEN_DIR }} state=directory
-
+      file: path={{ code_pen_dir }} state=directory
     - name: Personal code space
-      file: path={{ NONWORK_CODE_DIR }} state=directory
-
+      file: path={{ nonwork_code_dir }} state=directory
     - name: Work code space
-      file: path={{ WORK_CODE_DIR }} state=directory
-
+      file: path={{ work_code_dir }} state=directory
+    - name: Personal binary folder
+      file: path={{ user_bin_dir }} state=directory
