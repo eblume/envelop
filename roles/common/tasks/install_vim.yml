@@ -1,62 +1,41 @@
 ---
 
-- name: Install neovim (Debian)
-  block:
-    - name: "Install neovim dependencies"
-      apt: name="{{ packages }}" state=latest
-      become: yes
-      vars:
-        packages:
-        - ninja-build
-        - gettext
-        - libtool
-        - libtool-bin
-        - autoconf
-        - automake
-        - cmake
-        - g++
-        - pkg-config
-        - unzip
-    - name: Clone neovim repository
-      git: 
-        repo: 'git@github.com:neovim/neovim.git'
-        dest: "{{ nonwork_code_dir }}/neovim"
-        version: 'v0.3.1'
-    - name: "Build, configure, and install neovim"
-      block:
-      - name: Clean the build folder
-        command: "rm -r {{ nonwork_code_dir }}/neovim/build"
-      - name: Remove build artifacts
-        command: "make clean"
-        args:
-          chdir: "{{ nonwork_code_dir }}/neovim"
-      - name: Build neovim (this may take a bit)
-        command: "make CMAKE_EXTRA_FLAGS='-DCMAKE_INSTALL_PREFIX={{ user_bin_dir }}/../' CMAKE_BUILD_TYPE=RelWithDebInfo"
-        args:
-          chdir: "{{ nonwork_code_dir }}/neovim"
-      - name: Install neovim
-        command: make install
-        args:
-          chdir: "{{ nonwork_code_dir }}/neovim"
-      - name: Install neovim config
-        block:
-          - name: Create config directory
-            file: path="{{ ansible_env.HOME }}/.config/nvim" state=directory
-          - name: Save config
-            template:
-              src: c_init.vim.j2
-              dest: "{{ ansible_env.HOME }}/.config/nvim/c_init.vim"
-              mode: "u=rw,g=,o="
-      - name: Create bundle directory
-        file: path="{{ ansible_env.HOME }}/.vim/bundle" state=directory
-      - name: Create undodir directory
-        file: path="{{ ansible_env.HOME }}/.vim/undodir" state=directory
-      - name: Create undodir directory
-        file: path="{{ ansible_env.HOME }}/.vim/sessions" state=directory
-      - name: Install Vundle
-        git:
-          repo: 'git@github.com:VundleVim/Vundle.vim.git'
-          dest: "{{ ansible_env.HOME }}/.vim/bundle/Vundle.vim"
-          version: 'v0.10.2'
-      - name: Install neovim plugins
-        command: "{{ user_bin_dir}}/nvim -c VundleUpdate -c quitall"
+- name: Install neovim dependencies
+  apt: name="{{ packages }}" state=latest
+  become: yes
+  vars:
+    packages:
+    - ninja-build
+    - gettext
+    - libtool
+    - libtool-bin
+    - autoconf
+    - automake
+    - cmake
+    - g++
+    - pkg-config
+    - unzip
+
+- name: Clone or Update neovim repository
+  git:
+    repo: 'git@github.com:neovim/neovim.git'
+    dest: "{{ nonwork_code_dir }}/neovim"
+    version: "{{ neovim_version }}"
+  register: neovim_git_result
+
+- stat:
+    path: "{{ user_bin_dir }}/nvim"
+  register: neovim_bin
+
+- name: (Re)build neovim
+  include: build_neovim.yml
+  when: (neovim_git_result.after != neovim_git_result.before) or
+        (not neovim_bin.stat.exists)
+
+# We also do this as a step in build_neovim.yml, but there are times where we
+# don't want to build neovim and yet still want this step.
+- name: Save neovim config
+  template:
+    src: init.vim.j2
+    dest: "{{ ansible_env.HOME }}/.config/nvim/init.vim"
+    mode: "u=rw,g=,o="

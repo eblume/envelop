@@ -17,6 +17,9 @@
     - { role: debian, when: ansible_os_family == "Debian" }
     - laptop
   vars:
+    neovim_version: 'v0.3.1'
+    vundle_version: 'v0.10.2'
+
     ansible_check_mode: false  # No idea wtf is going on with this
     code_pen_dir: "{{ ansible_env.HOME }}/code"
     work_code_dir: "{{ code_pen_dir }}/patreon"
