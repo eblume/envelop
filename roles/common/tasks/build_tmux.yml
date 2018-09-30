@@ -1,0 +1,19 @@
+---
+
+- name: Remove tmux build folder
+  file: path="{{ nonwork_code_dir }}/tmux/build" state=absent
+
+- name: Clean tmux build artifacts
+  command: make clean
+  args:
+    chdir: "{{ nonwork_code_dir }}/tmux"
+
+- name: Configure tmux
+  command: sh autogen.sh
+  args:
+    chdir: "{{ nonwork_code_dir }}/tmux"
+
+- name: Build tmux (this may take a bit)
+  command: "./configure && make -j 4"
+  args:
+    chdir: "{{ nonwork_code_dir }}/tmux"

@@ -1,0 +1,33 @@
+---
+
+- name: Install tmux dependencies
+  apt: name="{{ packages }}" state=latest
+  become: yes
+  vars:
+    packages:
+      - libevent-dev
+      - ncurses-dev
+      - libncurses-dev  # unclear if both are needed
+      - build-essential
+      - automake
+      - autoconf
+      - pkg-config
+
+- name: Clone or Update tmux repository
+  git:
+    repo: 'git@github.com:tmux/tmux.git'
+    dest: "{{ nonwork_code_dir }}/tmux"
+    version: "{{ tmux_version }}"
+  register: tmux_git_result
+
+- stat:
+    path: "{{ user_bin_dir }}/tmux"
+  register: tmux_bin
+
+- name: (Re)build tmux
+  include: build_tmux.yml
+  when: tmux_git_result.changed or not tmux_bin.stat.exists
+
+- name: Save tmux config
+  debug: TODO
+
