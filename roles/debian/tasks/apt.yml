@@ -4,7 +4,7 @@
   become: yes
   apt_key:
     state: present
-    keyserver: pgp.mit.edu
+    keyserver: keyring.debian.org
     id: EF0F382A1A7B6500
 
 - name: 'Add contrib and non-free debian apt repositories'
