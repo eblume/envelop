@@ -1,0 +1,51 @@
+---
+
+- name: Remove neovim build folder
+  file: path="{{ nonwork_code_dir}}/neovim/build" state=absent
+
+- name: Clean neovim build artifacts
+  command: make clean
+  args:
+    chdir: "{{ nonwork_code_dir }}/neovim"
+
+- name: Build neovim (this may take a bit)
+  command: "make -j 4 CMAKE_EXTRA_FLAGS='-DCMAKE_INSTALL_PREFIX={{ user_bin_dir }}/../' CMAKE_BUILD_TYPE=RelWithDebInfo"
+  creates: "{{ nonwork_code_dir }}/neovim/build"
+  args:
+    chdir: "{{ nonwork_code_dir }}/neovim"
+
+- name: Install neovim
+  command: make install
+  args:
+    chdir: "{{ nonwork_code_dir }}/neovim"
+
+- name: Create neovim config directory
+  file: path="{{ ansible_env.HOME }}/.config/nvim" state=directory
+
+- name: Save neovim config
+  template:
+    src: init.vim.j2
+    dest: "{{ ansible_env.HOME }}/.config/nvim/init.vim"
+    mode: "u=rw,g=,o="
+
+- name: Create bundle directory
+  file: path="{{ ansible_env.HOME }}/.vim/bundle" state=directory
+
+- name: Create undodir directory
+  file: path="{{ ansible_env.HOME }}/.vim/undodir" state=directory
+
+- name: Create undodir directory
+  file: path="{{ ansible_env.HOME }}/.vim/sessions" state=directory
+
+- name: Install Vundle
+  git:
+    repo: 'git@github.com:VundleVim/Vundle.vim.git'
+    dest: "{{ ansible_env.HOME }}/.vim/bundle/Vundle.vim"
+    version: "{{ vundle_version }}" 
+# Dumb bug: Vundle does not specify which branch to pull from, so you
+# need to set an upstream branch. Consider filing a report?
+#- name: Tell Vundle to use an upstream branch
+  #  command: "git branch --set-upstream-to={{ vundle_version }}"
+
+- name: Install neovim plugins
+  command: "{{ user_bin_dir}}/nvim -c VundleUpdate -c quitall"
