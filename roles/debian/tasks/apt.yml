@@ -10,6 +10,7 @@
 # How is this not an end-run around security? I don't understand. :-\
 # but, sometimes you just gotta apt install
 - name: 'Add debian-archive-keyring to sign debian repos'
+  become: yes
   apt:
     name: debian-archive-keyring
     state: present
