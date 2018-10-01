@@ -23,3 +23,10 @@
   command: "make -j 8"
   args:
     chdir: "{{ nonwork_code_dir }}/tmux"
+
+- name: Link in tmux
+  file:
+    src: "{{ nonwork_code_dir }}/tmux/tmux"
+    dest: "{{ user_bin_dir }}/tmux"
+    state: link
+    mode: u+x

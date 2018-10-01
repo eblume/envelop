@@ -1,0 +1,10 @@
+---
+
+- name: Check out personal projects
+  git:
+    repo: "git@github.com:eblume/{{ item }}.git"
+    dest: "{{ nonwork_code_dir}}/{{item}}"
+    update: no  # We'll handle that in other ways
+  with_items:
+    - hermes
+    - dotfiles

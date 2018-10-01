@@ -30,8 +30,10 @@
 
 - name: Save tmux config
   template: src=tmux.conf.j2 dest="{{ ansible_env.HOME }}/.tmux.conf"
+  register: tmux_config_result
 
-- name: Tell tmux to source the config again (can't hurt, right?)
+- name: Tell tmux to source the config again
+  when: tmux_config_result.changed  # this could also be a handler. hmm.
   command: "tmux source {{ ansible_env.HOME}}/.tmux.conf"
 
 - name: Install tmuxinator

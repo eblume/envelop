@@ -10,4 +10,7 @@
 - include: install_vim.yml
 - include: install_tmux.yml
 
+- include: personal_dev.yml
+- include: professional_dev.yml
+
 - include: packages.yml

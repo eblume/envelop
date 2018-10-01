@@ -10,9 +10,9 @@
 
 - name: Build neovim (this may take a bit)
   command: "make -j 4 CMAKE_EXTRA_FLAGS='-DCMAKE_INSTALL_PREFIX={{ user_bin_dir }}/../' CMAKE_BUILD_TYPE=RelWithDebInfo"
-  creates: "{{ nonwork_code_dir }}/neovim/build"
   args:
     chdir: "{{ nonwork_code_dir }}/neovim"
+    creates: "{{ nonwork_code_dir }}/neovim/build"
 
 - name: Install neovim
   command: make install
