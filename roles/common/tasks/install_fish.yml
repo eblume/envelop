@@ -1,0 +1,23 @@
+---
+
+- name: Install fish shell
+  become: yes
+  apt: name=fish state=present
+
+- name: change shell to fish
+  become: yes
+  user:
+    name: '{{ansible_user_id}}'
+    shell: /usr/bin/fish
+
+- name: install fish config
+  template:
+    src: config.fish.j2
+    dest: "{{ ansible_env.HOME }}/.config/fish/config.fish"
+
+- name: create fish config folders
+  file: name="{{ ansible_env.HOME }}/.config/fish/{{ item  }}"  state=directory
+  with_items:
+    - completions 
+    - conf.d
+    - functions

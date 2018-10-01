@@ -1,0 +1,24 @@
+---
+
+- name: Configure resolv.conf
+  become: yes
+  when: ansible_os_family == "Debian"
+  template:
+    src: resolv.conf.j2
+    dest: /etc/resolv.conf
+    mode: 0644
+
+#- name: 'add stretch-updates key for debian'
+#  become: yes
+#  when: ansible_os_family == "Debian"
+#  apt_key:
+#    keyserver: keyring.debian.org
+#    id: "{{ item }}"
+#  with_items:
+#    - 8B48AD6246925553
+#    - 7638D0442B90D010
+#    - 9D6D8F6BC857C906
+#    - 8B48AD6246925553
+#    - 8B48AD6246925553
+#    - 7638D0442B90D010 
+#    - EF0F382A1A7B6500
