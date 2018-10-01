@@ -1,5 +1,12 @@
 ---
 
+# REMOVED - just contains fluxgui, which I dont think I'll need now
+- name: Remove f.lux PPA
+  become: yes
+  apt_repository:
+    repo: "ppa:nathan-renniewaldock/flux"
+    state: absent
+
 - name: Install user packages
   become: yes
   apt:
