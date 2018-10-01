@@ -1,0 +1,4 @@
+---
+
+- name: Install .ackrc
+  template: "src=ackrc.j2 dest={{ ansible_env.HOME}}/.ackrc"

@@ -9,6 +9,7 @@
 - include: install_fish.yml
 - include: install_vim.yml
 - include: install_tmux.yml
+- include: install_dotfiles.yml
 
 - include: personal_dev.yml
 - include: professional_dev.yml
