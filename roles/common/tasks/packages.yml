@@ -15,4 +15,10 @@
       - firefox
       - chromium-browser
       - silversearcher-ag
+      - snapd
 
+- name: Install user snaps with classic confinement
+  become: yes
+  command: "snap install {{ item }} --classic"
+  with_items:
+    - slack
