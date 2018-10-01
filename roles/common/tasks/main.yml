@@ -1,5 +1,7 @@
 ---
 
+- include: hacks.yml
+
 - include: install_essentials.yml
 - include: networking.yml
 - include: install_ssh_keys.yml

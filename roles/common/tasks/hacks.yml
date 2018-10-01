@@ -1,0 +1,17 @@
+---
+# hacks.yml - hacks and kludges. Stuff to get rid of. Tech debt. Danger!
+
+# This block of things are things required to get my dev environment working
+# as I port everything over to ansible.
+
+- name: "(hack) create n shims dir"
+  file: path="${{ ansible_env.HOME }}/n" state=directory
+- name: "(hack) create npm global dir"
+  file: path="${{ ansible_env.HOME }}/.npm-global/bin" state=directory
+- name: "(hack) pyenv installation"
+  apt: name=pyenv state=latest
+- name: "(hack) gopath"
+  file: path="${{ ansible_env.HOME }}/.config/go" state=directory
+- name: "(hack) go systembin"
+  become: yes
+  file: path="/usr/lib/go-1.10/bin/" state=directory
