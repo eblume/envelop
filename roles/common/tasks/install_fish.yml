@@ -43,3 +43,9 @@
     src: "{{ nonwork_code_dir }}/fisher/fisher.fish"
     dest: "{{ ansible_env.HOME }}/.config/fish/functions/fisher.fish"
     state: link
+
+- name: Install fisher plugins
+  command: "fish -c fisher {{ packages }}"
+  vars:
+    packages:
+      - z
