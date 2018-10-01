@@ -7,13 +7,19 @@
   command: make clean
   args:
     chdir: "{{ nonwork_code_dir }}/tmux"
+  ignore_errors: true
 
-- name: Configure tmux
+- name: Configure tmux autogen
   command: sh autogen.sh
   args:
     chdir: "{{ nonwork_code_dir }}/tmux"
 
+- name: Configure tmux
+  command: "./configure"
+  args:
+    chdir: "{{ nonwork_code_dir }}/tmux"
+
 - name: Build tmux (this may take a bit)
-  command: "./configure && make -j 4"
+  command: "make -j 8"
   args:
     chdir: "{{ nonwork_code_dir }}/tmux"

@@ -1,0 +1,40 @@
+# Change leader to C-_ from C-b
+set -g prefix C-a
+unbind-key C-b
+bind-key C-a send-prefix
+
+# remove the horrible escape delay
+set -sg escape-time 0
+
+# mouse
+set -g mouse on
+
+# Pretty Colors
+set -g default-terminal "screen-256color"
+
+# vi mode copy
+set-window-option -g mode-keys vi
+bind -T copy-mode-vi v send-keys -X begin-selection
+bind -T copy-mode-vi y send-keys -X copy-selection
+bind -T copy-mode-vi r send-keys -X rectangle-toggle
+bind -T copy-mode-vi y send -X copy-pipe "xclip -selection c"
+bind -T copy-mode-vi Enter send-keys -X copy-pipe-and-cancel "xsel -b"
+
+# vim-like pane movement
+bind-key h select-pane -L
+bind-key j select-pane -D
+bind-key k select-pane -U
+bind-key l select-pane -R
+
+
+#### PLUGINS
+# set -g @plugin 'tmux-plugins/tpm'
+# set -g @plugin 'jimeh/tmux-themepack'
+
+
+#### THEMES
+# set -g @themepack 'powerline/block/cyan'
+
+
+# Initialize TMUX plugin manager (keep this line at the very bottom of tmux.conf)
+# run '~/.tmux/plugins/tpm/tpm'

@@ -8,5 +8,6 @@
 - include: code_pen.yml
 - include: install_fish.yml
 - include: install_vim.yml
+- include: install_tmux.yml
 
 - include: packages.yml

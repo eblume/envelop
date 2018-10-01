@@ -29,5 +29,5 @@
   when: tmux_git_result.changed or not tmux_bin.stat.exists
 
 - name: Save tmux config
-  debug: TODO
+  template: src=tmux.conf.j2 dest="{{ ansible_env.HOME }}/.tmux.conf"
 
