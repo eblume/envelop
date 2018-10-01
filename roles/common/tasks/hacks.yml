@@ -8,8 +8,6 @@
   file: path="${{ ansible_env.HOME }}/n" state=directory
 - name: "(hack) create npm global dir"
   file: path="${{ ansible_env.HOME }}/.npm-global/bin" state=directory
-- name: "(hack) pyenv installation"
-  apt: name=pyenv state=latest
 - name: "(hack) gopath"
   file: path="${{ ansible_env.HOME }}/.config/go" state=directory
 - name: "(hack) go systembin"
