@@ -1,0 +1,10 @@
+---
+
+- name: Install user packages
+  become: yes
+  apt:
+    state: present
+    name:
+      - firefox
+      - chromium-browser
+
