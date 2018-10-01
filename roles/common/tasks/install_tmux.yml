@@ -31,3 +31,21 @@
 - name: Save tmux config
   template: src=tmux.conf.j2 dest="{{ ansible_env.HOME }}/.tmux.conf"
 
+- name: Tell tmux to source the config again (can't hurt, right?)
+  command: "tmux source {{ ansible_env.HOME}}/.tmux.conf"
+
+- name: Install tmuxinator
+  gem: name=tmuxinator state=present user_install=no
+  become: yes
+
+- name: Create tmuxinator config dir
+  file: path="{{ ansible_env.HOME }}/.config/tmuxinator" state=directory
+
+- name: Install tmuxinator configs
+  template: src="{{ item }}.yml.j2" dest="{{ ansible_env.HOME }}/.config/tmuxinator/{{ item }}.yml"
+  with_items:
+    - usual
+    - devx-frontend
+    - hermes
+    - vpn
+

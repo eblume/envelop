@@ -1,0 +1,11 @@
+# forked from ~/.tmuxinator/usual.yml
+
+name: hermes
+root: ~/code/notreon/hermes
+
+windows:
+  - coding:
+      layout: 'main-horizontal'
+      panes:
+        - pipenv shell
+        - pipenv shell -- pipenv run tests
