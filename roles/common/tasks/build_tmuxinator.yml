@@ -1,0 +1,29 @@
+---
+
+# Build tmuxinator from source while we wait on upstream to merge and release
+# a patch. Briefly, the patch is to supresss tmuxinator's version check error
+# message when tmux has been built from source. There's really no reason for
+# tmuxinator to complain about a from-source build since the person who built
+# it should be responsible for fixing any problems.
+
+- name: Check out tmuxinator source
+  git:
+    repo: "git@github.com:eblume/tmuxinator"
+    dest: "{{ nonwork_code_dir }}/tmuxinator"
+    update: no
+
+- name: Install ruby2.5 header files
+  become: yes
+  apt: name="{{ item }}" state=latest
+  with_items:
+    - ruby-dev
+    - ruby2.5
+    - ruby2.5-dev
+    - rake
+    - bundler
+
+- name: Build tmuxinator deps
+  command: bundle install
+  args:
+    chdir: "{{ nonwork_code_dir }}/tmuxinator"
+

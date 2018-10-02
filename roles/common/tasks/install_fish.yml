@@ -45,7 +45,6 @@
     state: link
 
 - name: Install fisher plugins
-  command: "fish -c \"fisher {{ packages }}\""
-  vars:
-    packages:
-      - z
+  command: "fish -c \"fisher {{ item }}\""
+  with_items:
+    - z

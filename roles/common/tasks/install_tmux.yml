@@ -36,9 +36,12 @@
   when: tmux_config_result.changed  # this could also be a handler. hmm.
   command: "tmux source {{ ansible_env.HOME}}/.tmux.conf"
 
-- name: Install tmuxinator
-  gem: name=tmuxinator state=present user_install=no
-  become: yes
+# Commented out while a patch waits on upstream to be merged
+#- name: Install tmuxinator
+#  gem: name=tmuxinator state=present user_install=no
+#  become: yes
+- name: Install tmuxinator from source
+  include: build_tmuxinator.yml
 
 - name: Create tmuxinator config dir
   file: path="{{ ansible_env.HOME }}/.config/tmuxinator" state=directory
