@@ -16,7 +16,7 @@
       # - { role: Datadog.datadog, become: yes }
   vars:
     neovim_version: 'v0.3.1'
-    tmux_version: '2.8'
+    tmux_version: '2.7'
     vundle_version: 'v0.10.2'
     fisher_version: '2.13.0'
 
