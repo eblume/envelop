@@ -14,7 +14,9 @@
 - name: Check if slack needs to be installed
   command: "snap list slack"
   register: slack_installed
+  changed_when: not slack_installed
 
+# Classic confinement = not as good, can get out with sneaky code.
 - name: Install slack snap with classic confinement
   become: yes
   command: "snap install slack --classic"

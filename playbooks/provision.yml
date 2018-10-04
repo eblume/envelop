@@ -19,6 +19,8 @@
     tmux_version: '2.7'
     vundle_version: 'v0.10.2'
     fisher_version: '2.13.0'
+    pyenv_version: 'v1.2.7'  # latest release as of 04-Oct-18
+    pyenv_virtualenv_version: 'v1.1.3'
 
     ansible_check_mode: false  # No idea wtf is going on with this
     code_pen_dir: "{{ ansible_env.HOME }}/code"

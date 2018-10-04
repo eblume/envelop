@@ -45,6 +45,11 @@
     state: link
 
 - name: Install fisher plugins
-  command: "fish -c \"fisher {{ item }}\""
-  with_items:
-    - z
+  command: "fish -c \"fisher {{ ' '.join(fisher_plugins) }}\""
+  register: fisher_plugins_result
+  changed_when:
+    - fisher_plugins_result.stdout 
+    - not fisher_plugins_result.stdout.starts_with('No plugins to install')
+  vars:
+    fisher_plugins:
+      - z

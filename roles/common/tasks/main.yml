@@ -16,4 +16,6 @@
 
 - include: work_vpn.yml
 
+- include: install_pyenv.yml
+
 - include: packages.yml
