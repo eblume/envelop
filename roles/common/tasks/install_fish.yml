@@ -44,6 +44,7 @@
     dest: "{{ ansible_env.HOME }}/.config/fish/functions/fisher.fish"
     state: link
 
+# We could save ~1s if we parsed `fisher ls` first, but whatever :)
 - name: Install fisher plugins
   command: "fish -c \"fisher {{ ' '.join(fisher_plugins) }}\""
   register: fisher_plugins_result
