@@ -7,6 +7,7 @@
     state: latest
   with_items:
     - openvpn
+    - resolvconf
 
 - name: Install the user-vpn vpn manager script
   copy:
