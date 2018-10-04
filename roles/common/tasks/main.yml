@@ -14,4 +14,6 @@
 - include: personal_dev.yml
 - include: professional_dev.yml
 
+- include: work_vpn.yml
+
 - include: packages.yml

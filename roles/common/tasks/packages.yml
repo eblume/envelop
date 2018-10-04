@@ -16,6 +16,7 @@
       - chromium-browser
       - silversearcher-ag
       - snapd
+      - xsel
 
 - name: Install user snaps with classic confinement
   become: yes
