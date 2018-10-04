@@ -1,12 +1,5 @@
 ---
 
-# REMOVED - just contains fluxgui, which I dont think I'll need now
-- name: Remove f.lux PPA
-  become: yes
-  apt_repository:
-    repo: "ppa:nathan-renniewaldock/flux"
-    state: absent
-
 - name: Install user packages
   become: yes
   apt:
@@ -18,8 +11,11 @@
       - snapd
       - xsel
 
-- name: Install user snaps with classic confinement
+- name: Check if slack needs to be installed
+  command: "snap list slack"
+  register: slack_installed
+
+- name: Install slack snap with classic confinement
   become: yes
-  command: "snap install {{ item }} --classic"
-  with_items:
-    - slack
+  command: "snap install slack --classic"
+  when: not slack_installed
