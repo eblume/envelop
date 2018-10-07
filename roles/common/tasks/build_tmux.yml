@@ -7,7 +7,7 @@
   command: make clean
   args:
     chdir: "{{ nonwork_code_dir }}/tmux"
-  ignore_errors: true
+  ignore_errors: yes
 
 - name: Configure tmux autogen
   command: sh autogen.sh

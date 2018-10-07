@@ -15,16 +15,38 @@
   register: pyenv_virtualenv_git
 
 - name: "Gather info on installed versions of python"
-  when: pyenv_git.changed or pyenv_virtualenv_git.changed
   command: "{{ nonwork_code_dir }}/pyenv/bin/pyenv versions"
+  changed_when: false
   register: pyenv_versions_check
 
+- name: "Install required packages"
+  become: yes
+  vars:
+    packages:
+      - libreadline-dev
+      - libncurses5-dev
+      - libncursesw5-dev
+      - openssl
+      - libssl-dev
+      - libbz2-dev
+      - sqlite3  # not needed, but... it's awesome
+      - libsqlite3-dev
+      - libgdbm-dev
+      - libc6-dev
+      - zlib1g-dev
+      - tk-dev
+      - libffi-dev
+  apt:
+    name: "{{ packages }}"
+    state: latest
+
 - name: Install python versions in to pyenv
-  when: pyenv_versions_check.changed and item in pyenv_versions_check.stdout
-  command: "{{ nonwork_code_dir }}/pyenv/bin/pyenv install {{ item }}"
+  when: not pyenv_versions_check.stdout or item not in pyenv_versions_check.stdout
+  command: "fish -c \". ({{ nonwork_code_dir }}/pyenv/bin/pyenv init -|psub); and  {{ nonwork_code_dir }}/pyenv/bin/pyenv install {{ item }}\""
   with_items:
     - "2.7.15"
     - "3.7.0"
+    - "3.6.5"
     - "3.6.6"
     - "pypy3.5-6.0.0"
 
@@ -36,9 +58,16 @@
 - name: Install the global python version
   when: 
     - pyenv_global_check.stdout == 'system'
-  command: "{{ nonwork_code_dir }}/pyenv/bin/pyenv install {{ pyenv_global_version }}"
+  command: "fish -c \". ({{ nonwork_code_dir }}/pyenv/bin/pyenv init -|psub); and  {{ nonwork_code_dir }}/pyenv/bin/pyenv install {{ pyenv_global_version }}\""
   register: pyenv_global_install
-  ignore_errors: pyenv_global_install.stderr and pyenv_global_install.stderr.endswith('already exists')
+  ignore_errors: yes
+
+- name: pyenv global version install failure reason check (in case its just already installed)
+  fail:
+    msg: "pyenv failed: {{ pyenv_global_install.stderr }}"
+  when:
+    - "pyenv_global_check.stdout == 'system'"
+    - "'already exists' not in pyenv_global_install.stderr"
 
 - name: Set the global python version
   when: 
