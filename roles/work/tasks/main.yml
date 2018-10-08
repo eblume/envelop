@@ -1,5 +1,13 @@
 ---
 
+- name: Configure resolv.conf
+  become: yes
+  when: ansible_os_family == "Debian"
+  template:
+    src: resolv.conf.j2
+    dest: /etc/resolv.conf
+    mode: 0644
+
 - name: Install openvpn
   become: yes
   apt:
@@ -31,7 +39,7 @@
     mode: "u=r,g=,o="
 
 - name: Install the openvpn_dns_hook
-  copy: 
+  copy:
     src: ../files/old_openvpn_hook.sh
     #  src: ../files/openvpn_dns_hook.sh
     dest: "{{ ansible_env.HOME}}/openvpn/openvpn_dns_hook.sh"

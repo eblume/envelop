@@ -13,7 +13,8 @@
   connection: local  # default 'smart'
   roles:
     - common
-      # - { role: Datadog.datadog, become: yes }
+    - work
+    # - { role: Datadog.datadog, become: yes }
   vars:
     neovim_version: 'v0.3.1'
     tmux_version: '2.7'
