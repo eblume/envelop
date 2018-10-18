@@ -5,6 +5,7 @@
   become: yes
   vars:
     packages:
+      - ruby # only for tmuxinator, not tmux
       - libevent-dev
       - ncurses-dev
       - libncurses-dev  # unclear if both are needed
@@ -34,7 +35,7 @@
 
 - name: Tell tmux to source the config again
   when: tmux_config_result.changed  # this could also be a handler. hmm.
-  command: "tmux source {{ ansible_env.HOME}}/.tmux.conf"
+  command: "{{ user_bin_dir}}/tmux source {{ ansible_env.HOME}}/.tmux.conf"
 
 - name: Install tmuxinator
   gem: name=tmuxinator state=present user_install=no

@@ -7,4 +7,4 @@
     update: no  # We'll handle that in other ways
   with_items:
     - hermes
-    - dotfiles
+    - envelop

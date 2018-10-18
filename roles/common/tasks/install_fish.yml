@@ -10,10 +10,6 @@
     name: '{{ansible_user_id}}'
     shell: /usr/bin/fish
 
-- name: install fish config
-  template:
-    src: config.fish.j2
-    dest: "{{ ansible_env.HOME }}/.config/fish/config.fish"
 
 - name: create fish config folders
   file: name="{{ ansible_env.HOME }}/.config/fish/{{ item  }}"  state=directory
@@ -21,6 +17,11 @@
     - completions 
     - conf.d
     - functions
+
+- name: install fish config
+  template:
+    dest: "{{ ansible_env.HOME }}/.config/fish/config.fish"
+    src: config.fish.j2
 
 - name: create fish env config
   template:
