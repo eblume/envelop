@@ -42,5 +42,14 @@
   copy:
     src: ../files/old_openvpn_hook.sh
     #  src: ../files/openvpn_dns_hook.sh
-    dest: "{{ ansible_env.HOME}}/openvpn/openvpn_dns_hook.sh"
+    dest: "{{ ansible_env.HOME }}/openvpn/openvpn_dns_hook.sh"
     mode: "u=rx,g=,o="  # It's not a secure file, but no reason to expose it anyway
+
+- name: Create ssh config dir
+  file: path="{{ ansible_env.HOME }}/.ssh" state=directory mode="u=rwx,g=,o="
+
+- name: Set up ssh config
+  copy:
+    src: ../files/ssh.config
+    dest: "{{ ansible_env.HOME }}/.ssh/config"
+    mode: "u=r,g=,o=" 
