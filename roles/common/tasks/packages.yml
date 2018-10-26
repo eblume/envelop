@@ -15,6 +15,7 @@
   ignore_errors: yes
   command: "snap list slack"
   register: slack_installed
+  changed_when: False
 
 # Classic confinement = not as good, can get out with sneaky code.
 - name: Install slack snap with classic confinement

@@ -42,7 +42,7 @@
 
 - name: Install python versions in to pyenv
   when: not pyenv_versions_check.stdout or item not in pyenv_versions_check.stdout
-  command: "fish -c \". ({{ nonwork_code_dir }}/pyenv/bin/pyenv init -|psub); and  {{ nonwork_code_dir }}/pyenv/bin/pyenv install {{ item }}\""
+  command: "fish -c \"source ({{ nonwork_code_dir }}/pyenv/bin/pyenv init -|psub); and  {{ nonwork_code_dir }}/pyenv/bin/pyenv install {{ item }}\""
   with_items:
     - "2.7.15"
     - "3.7.0"
@@ -58,7 +58,7 @@
 - name: Install the global python version
   when: 
     - pyenv_global_check.stdout == 'system'
-  command: "fish -c \". ({{ nonwork_code_dir }}/pyenv/bin/pyenv init -|psub); and  {{ nonwork_code_dir }}/pyenv/bin/pyenv install {{ pyenv_global_version }}\""
+  command: "fish -c \"source ({{ nonwork_code_dir }}/pyenv/bin/pyenv init -|psub); and  {{ nonwork_code_dir }}/pyenv/bin/pyenv install {{ pyenv_global_version }}\""
   register: pyenv_global_install
   ignore_errors: yes
 
@@ -72,4 +72,13 @@
 - name: Set the global python version
   when: 
     - pyenv_global_check.stdout == 'system'
-  command: "{{ nonwork_code_dir }}/pyenv/bin/pyenv global {{ pyenv_global_version }}"
+  command: "fish -c \"source ({{ nonwork_code_dir }}/pyenv/bin/pyenv init -|psub); and {{ nonwork_code_dir }}/pyenv/bin/pyenv global {{ pyenv_global_version }}\""
+
+# Let's also install poetry here - it isn't pyenv, but it'll be useful a lot.
+
+- name: Install python poetry - version pinning and dep fetcher
+  pip:
+    name: poetry
+    state: latest
+    executable: pip3
+    extra_args: "--user"
