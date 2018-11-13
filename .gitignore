@@ -112,3 +112,6 @@ dmypy.json
 
 # ansible retrys
 *.retry
+
+# ctags
+tags
