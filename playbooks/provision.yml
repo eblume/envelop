@@ -1,20 +1,9 @@
 ---
 
 - hosts: localhost
-  # remote_user: root
-  # tasks:
-  # - name: example one-off task
-  #   command: arguments
-  #   notify:
-  #   - restart apache
-  # handlers:
-  # - name: restart apache
-  #   service: name=httpd state=started enabled=yes
   connection: local  # default 'smart'
   roles:
     - common
-    - work
-    # - { role: Datadog.datadog, become: yes }
   vars:
     neovim_version: 'v0.3.1'
     tmux_version: '2.7'
@@ -29,23 +18,9 @@
     work_code_dir: "{{ code_pen_dir }}/patreon"
     nonwork_code_dir: "{{ code_pen_dir }}/notreon"
     user_bin_dir: "{{ ansible_env.HOME }}/bin"
-    # TODO - decredential this key :(
-    datadog_api_key: "0109e06a505191089b6b8c638d29fa3c"
-    # datadog_agent_version: "1:6.0.0-1"
-    datadog_config:
-      tags: "shapeofwater"  # comma-seperated string (not list of strings): "foo, bar"
-      log_level: INFO,
-      apm_enabled: "false"  # has to be set as a string
-      logs_enabled: true
-    datadog_checks:
-      # dropped in to /etc/datadog-agent/conf.d/<check_name>.d/conf.yaml for agent6
-      process:
-        # init_config:
-        instances:
-          - name: ssh
-            search_string: ['ssh', 'sshd' ]
-          - name: syslog
-            search_string: ['rsyslog' ]
-            cpu_check_interval: 0.2
-            exact_match: true
-            ignore_denied_access: true
+  
+  # Conditional role application
+  tasks:
+    - include_role:
+        name: work
+      when: "ansible_hostname == 'shapeofwater'"
