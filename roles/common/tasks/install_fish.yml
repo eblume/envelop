@@ -2,7 +2,7 @@
 
 - name: Install fish shell
   become: yes
-  apt: name=fish state=present
+  apt: name=fish state=latest
 
 - name: change shell to fish
   become: yes
@@ -55,3 +55,9 @@
   vars:
     fisher_plugins:
       - z
+      - metro
+
+# Powerline Fonts: this is to support metro, and it requires patching fonts
+- name: Install powerline patched fonts (for metro fish prompt)
+  become: yes
+  apt: name=fonts-powerline state=latest
