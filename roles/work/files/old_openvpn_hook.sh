@@ -4,6 +4,8 @@
 # blume.erich@gmail.com
 # Insert vpn dns options in to the running resolvd. A clever kludge
 # proposed by Bailey Stoner
+#
+# MANAGED BY ANSIBLE
 
 # Rename this to `$vpn_state` to be more semantically useful. `$script_type` is
 # a really weird name.

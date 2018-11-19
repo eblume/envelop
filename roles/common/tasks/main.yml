@@ -3,7 +3,6 @@
 - include: hacks.yml
 
 - include: install_essentials.yml
-- include: install_ssh_keys.yml
 - include: code_pen.yml
 - include: install_fish.yml
 - include: install_vim.yml
@@ -11,7 +10,6 @@
 - include: install_dotfiles.yml
 
 - include: personal_dev.yml
-- include: professional_dev.yml
 
 - include: install_pyenv.yml
 

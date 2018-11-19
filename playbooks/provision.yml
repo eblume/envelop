@@ -23,4 +23,8 @@
   tasks:
     - include_role:
         name: work
-      when: "ansible_hostname == 'shapeofwater'"
+      when: (ansible_hostname == 'shapeofwater') or
+            (ansible_hostname == 'ringtail')
+    - include_role:
+        name: gaming
+      when: ansible_hostname == 'ringtail'

@@ -45,3 +45,14 @@
     src: ../files/ssh.config
     dest: "{{ ansible_env.HOME }}/.ssh/config"
     mode: "u=r,g=,o=" 
+
+- name: Check out professional projects
+  git:
+    repo: "git@github.com:patreon/{{ item }}.git"
+    dest: "{{ work_code_dir}}/{{item}}"
+    update: no  # We'll handle that in other ways
+  with_items:
+    - devx-frontend
+    - populous
+    - ansible
+    - patreon_py
