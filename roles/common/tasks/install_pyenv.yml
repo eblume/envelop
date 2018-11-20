@@ -7,13 +7,6 @@
     version: "{{ pyenv_version }}"
   register: pyenv_git
 
-- name: Check out the pyenv-virtualenv plugin
-  git:
-    repo: git@github.com:pyenv/pyenv-virtualenv.git
-    dest: "{{ nonwork_code_dir }}/pyenv/plugins/pyenv-virtualenv"
-    version: "{{ pyenv_virtualenv_version }}"
-  register: pyenv_virtualenv_git
-
 - name: "Gather info on installed versions of python"
   command: "{{ nonwork_code_dir }}/pyenv/bin/pyenv versions"
   changed_when: false
@@ -40,9 +33,15 @@
     name: "{{ packages }}"
     state: latest
 
+- name: Set pyenv preamble fact
+  # NOTE: it's clumsy but you need to end with \" to close it out.
+  set_fact:
+    pyenv_pre: "fish -c \"source ({{ nonwork_code_dir }}/pyenv/bin/pyenv init -|psub); and "
+    pyenv_post: "\""
+
 - name: Install python versions in to pyenv
   when: not pyenv_versions_check.stdout or item not in pyenv_versions_check.stdout
-  command: "fish -c \"source ({{ nonwork_code_dir }}/pyenv/bin/pyenv init -|psub); and  {{ nonwork_code_dir }}/pyenv/bin/pyenv install {{ item }}\""
+  command: "{{ pyenv_pre }} {{ nonwork_code_dir }}/pyenv/bin/pyenv install {{ item }}{{ pyenv_post }}"
   with_items:
     - "2.7.15"
     - "3.7.0"
@@ -58,7 +57,7 @@
 - name: Install the global python version
   when: 
     - pyenv_global_check.stdout == 'system'
-  command: "fish -c \"source ({{ nonwork_code_dir }}/pyenv/bin/pyenv init -|psub); and  {{ nonwork_code_dir }}/pyenv/bin/pyenv install {{ pyenv_global_version }}\""
+  command: "{{ pyenv_pre}}{{ nonwork_code_dir }}/pyenv/bin/pyenv install {{ pyenv_global_version }}{{ pyenv_post }}"
   register: pyenv_global_install
   ignore_errors: yes
 
@@ -72,13 +71,21 @@
 - name: Set the global python version
   when: 
     - pyenv_global_check.stdout == 'system'
-  command: "fish -c \"source ({{ nonwork_code_dir }}/pyenv/bin/pyenv init -|psub); and {{ nonwork_code_dir }}/pyenv/bin/pyenv global {{ pyenv_global_version }}\""
+  command: "{{ pyenv_pre }}{{ nonwork_code_dir }}/pyenv/bin/pyenv global {{ pyenv_global_version }}{{ pyenv_post }}"
 
 # Let's also install poetry here - it isn't pyenv, but it'll be useful a lot.
 
-- name: Install python poetry - version pinning and dep fetcher
-  pip:
-    name: poetry
-    state: latest
-    executable: pip3
-    extra_args: "--user"
+- name: Ensure fish completions folder exists
+  file: path="{{ ansible_env.HOME }}/.config/fish/completions" state=directory recurse=yes
+
+- name: Download the poetry installer
+  get_url:
+    url: https://raw.githubusercontent.com/sdispater/poetry/master/get-poetry.py
+    dest: "{{ nonwork_code_dir }}/get-poetry.py"
+    mode: 0440
+
+- name: Install/Update poetry
+  command: "{{ pyenv_pre }} python {{ nonwork_code_dir }}/get-poetry.py -y {{ pyenv_post }}"
+
+- name: Set poetry completions
+  command: "fish -c \"{{ ansible_env.HOME}}/.poetry/bin/poetry completions fish > {{ ansible_env.HOME}}/.config/fish/completions/poetry.fish\""

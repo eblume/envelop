@@ -26,4 +26,6 @@ set -x ANSIBLE_NOCOWS 1
 set -x PYENV_ROOT "{{ nonwork_code_dir }}/pyenv"
 set -x PATH $PYENV_ROOT/bin $PATH
 status --is-interactive; and source (pyenv init -|psub)
-status --is-interactive; and source (pyenv virtualenv-init -|psub)
+
+# Set up poetry
+set -x PATH ~/.poetry/bin $PATH

@@ -14,3 +14,5 @@
 - include: install_pyenv.yml
 
 - include: packages.yml
+
+- debug: msg="You should now run `exec fish` to reload your shell"
