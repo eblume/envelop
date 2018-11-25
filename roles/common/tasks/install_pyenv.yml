@@ -86,6 +86,8 @@
 
 - name: Install/Update poetry
   command: "{{ pyenv_pre }} python {{ nonwork_code_dir }}/get-poetry.py -y {{ pyenv_post }}"
+  register: poetry_update
+  changed_when: "'Latest version already installed' not in poetry_update.stdout"
 
 - name: Set poetry completions
   command: "fish -c \"{{ ansible_env.HOME}}/.poetry/bin/poetry completions fish > {{ ansible_env.HOME}}/.config/fish/completions/poetry.fish\""

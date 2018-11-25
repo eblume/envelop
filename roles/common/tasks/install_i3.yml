@@ -1,0 +1,14 @@
+---
+
+- name: Install i3 config
+  template:
+    src: i3.config.j2
+    dest: "{{ ansible_env.HOME }}/.config/i3/config"
+
+- name: Install i3status config
+  template:
+    src: i3status.config.j2
+    dest: "{{ ansible_env.HOME }}/.config/i3status/config"
+
+- name: Install i3
+  apt: name=i3 state=latest
