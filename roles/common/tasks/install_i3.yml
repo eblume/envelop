@@ -1,9 +1,19 @@
 ---
 
+- name: Make i3 config dir
+  file:
+    path: "{{ ansible_env.HOME }}/.config/i3"
+    state: directory
+
 - name: Install i3 config
   template:
     src: i3.config.j2
     dest: "{{ ansible_env.HOME }}/.config/i3/config"
+
+- name: Make i3status config dir
+  file:
+    path: "{{ ansible_env.HOME }}/.config/i3status"
+    state: directory
 
 - name: Install i3status config
   template:

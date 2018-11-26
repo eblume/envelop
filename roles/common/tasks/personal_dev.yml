@@ -18,3 +18,13 @@
     - ipython
   register: pip_result
   changed_when: pip_result.rc == 0 and 'Successfully installed' in pip_result.stdout_lines[-1]
+
+- name: Make hermes CLI api key
+  file:
+    path: "{{ ansible_env.HOME }}/.local/share/HermesCLI"
+    state: directory
+
+- name: Install hermes gcal api key
+  template:
+    src: hermes_gcal_api.json
+    dest: "{{ ansible_env.HOME }}/.local/share/HermesCLI/gcal.json"
