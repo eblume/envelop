@@ -7,6 +7,11 @@
     version: "{{ pyenv_version }}"
   register: pyenv_git
 
+- name: Check out pyenv-virtualenv
+  git:
+    repo: git@github.com:pyenv/pyenv-virtualenv.git
+    dest: "{{ nonwork_code_dir }}/pyenv/plugins/pyenv-virtualenv"
+
 - name: "Gather info on installed versions of python"
   command: "{{ nonwork_code_dir }}/pyenv/bin/pyenv versions"
   changed_when: false
@@ -91,3 +96,6 @@
 
 - name: Set poetry completions
   command: "fish -c \"{{ ansible_env.HOME}}/.poetry/bin/poetry completions fish > {{ ansible_env.HOME}}/.config/fish/completions/poetry.fish\""
+
+- name: Fix poetry/pyenv competition to mangle PATH
+  template: src=fix_poetry_path.py.j2 dest="{{ user_bin_dir }}/fix_poetry_path.py"

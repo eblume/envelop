@@ -1,0 +1,31 @@
+# Curtesy of 'itsthejoker':
+# https://github.com/sdispater/poetry/issues/497
+# {{ ansible_managed }}
+#
+# This script fixes pyenv's clobbering of the PATH in fish
+
+import os
+import sys
+
+def fix_path():
+    if os.environ.get('POETRY_ACTIVE', None) is None:
+        sys.exit(0)
+    syspath = os.environ.get('PATH').split(':')
+    # poetry always puts venvs in the local directory, so we just need
+    # the first hit with .venv
+    venv_index = None
+    for item in syspath:
+        if 'virtualenvs' in item:
+            venv_index = syspath.index(item)
+            break
+    if venv_index is None:
+        sys.stderr.write('Cannot rearrange path; no virtualenvs entry found!\n')
+        sys.exit(1)
+
+    venv = syspath.pop(venv_index)
+    syspath.insert(0, venv)
+
+    return ':'.join(syspath)
+
+if __name__ == '__main__':
+    print('export PATH={}'.format(fix_path()))
