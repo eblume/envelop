@@ -42,10 +42,3 @@
     repo: 'git@github.com:VundleVim/Vundle.vim.git'
     dest: "{{ ansible_env.HOME }}/.vim/bundle/Vundle.vim"
     version: "{{ vundle_version }}" 
-# Dumb bug: Vundle does not specify which branch to pull from, so you
-# need to set an upstream branch. Consider filing a report?
-#- name: Tell Vundle to use an upstream branch
-  #  command: "git branch --set-upstream-to={{ vundle_version }}"
-
-- name: Install neovim plugins
-  command: "{{ user_bin_dir}}/nvim -c VundleUpdate -c quitall"

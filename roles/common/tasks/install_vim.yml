@@ -39,3 +39,6 @@
     src: init.vim.j2
     dest: "{{ ansible_env.HOME }}/.config/nvim/init.vim"
     mode: "u=rw,g=,o="
+
+- name: Install/Update neovim plugins
+  command: "{{ user_bin_dir}}/nvim -c VundleUpdate -c quitall"
