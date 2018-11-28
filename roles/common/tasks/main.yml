@@ -9,6 +9,7 @@
 - include: install_tmux.yml
 - include: install_dotfiles.yml
 - include: install_i3.yml
+- include: install_ctags.yml
 
 - include: personal_dev.yml
 
