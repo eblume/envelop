@@ -13,7 +13,6 @@
   command: "fish -c \"source ({{ nonwork_code_dir }}/pyenv/bin/pyenv init -|psub); and pip install -U {{ item }}\""
   with_items:
     - pip
-    - "pipenv==2018.7.1"  # Unpin after Nov 2018: https://github.com/pypa/pipenv/issues/2964
     - pdbpp
     - ipython
   register: pip_result
