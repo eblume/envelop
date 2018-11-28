@@ -34,3 +34,6 @@
   command: "make install"
   args:
     chdir: "{{ nonwork_code_dir }}/ctags"
+
+- name: Install ctags global config
+  template: src="ctagsrc.j2" dest="{{ ansible_env.HOME }}/.ctags"
