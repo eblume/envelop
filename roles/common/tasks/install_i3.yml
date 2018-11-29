@@ -21,4 +21,5 @@
     dest: "{{ ansible_env.HOME }}/.config/i3status/config"
 
 - name: Install i3
+  become: yes
   apt: name=i3 state=latest
