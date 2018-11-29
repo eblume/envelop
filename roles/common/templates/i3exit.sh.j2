@@ -1,18 +1,9 @@
 #!/bin/sh
 # {{ ansible_managed }}
 
-
-i#!/usr/bin/env bash
-
-lock() {
-    #  killall compton
-    $HOME/.config/i3lock/i3lock.sh
-    #  compton -b
-}
-
 case "$1" in
     lock)
-        lock
+        i3lock -c 404040
         ;;
     logout)
         i3-msg exit

@@ -26,6 +26,9 @@
     src: i3status.config.j2
     dest: "{{ ansible_env.HOME }}/.config/i3status/config"
 
-- name: Install i3
+- name: Install i3 and support packages
   become: yes
-  apt: name=i3 state=latest
+  apt: name={{ item }} state=latest
+  with_items:
+    - i3
+    - i3lock
