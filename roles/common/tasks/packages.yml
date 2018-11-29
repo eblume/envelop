@@ -10,6 +10,7 @@
       - silversearcher-ag
       - snapd
       - xsel
+      - blueman
 
 - name: Check if slack needs to be installed
   ignore_errors: yes
