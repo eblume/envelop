@@ -9,7 +9,11 @@
   user:
     name: '{{ansible_user_id}}'
     shell: /usr/bin/fish
+  register: shell_change
 
+- fail:
+    msg: "Your shell has changed, please create a new login shell (log out and log in)"
+  when: shell_change.changed
 
 - name: create fish config folders
   file: name="{{ ansible_env.HOME }}/.config/fish/{{ item  }}"  state=directory

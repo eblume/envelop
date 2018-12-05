@@ -5,6 +5,7 @@
 - include: install_essentials.yml
 - include: code_pen.yml
 - include: install_fish.yml
+- include: install_pyenv.yml
 - include: install_vim.yml
 - include: install_tmux.yml
 - include: install_dotfiles.yml
@@ -13,7 +14,6 @@
 
 - include: personal_dev.yml
 
-- include: install_pyenv.yml
 
 - include: packages.yml
 

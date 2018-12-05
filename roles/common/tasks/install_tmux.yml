@@ -36,6 +36,7 @@
 - name: Tell tmux to source the config again
   when: tmux_config_result.changed  # this could also be a handler. hmm.
   command: "{{ user_bin_dir}}/tmux source {{ ansible_env.HOME}}/.tmux.conf"
+  ignore_errors: yes
 
 - name: Install tmuxinator
   gem: name=tmuxinator state=present user_install=no
