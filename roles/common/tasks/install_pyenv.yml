@@ -47,6 +47,8 @@
 - name: Install python versions in to pyenv
   when: not pyenv_versions_check.stdout or item not in pyenv_versions_check.stdout
   command: "{{ pyenv_pre }} {{ nonwork_code_dir }}/pyenv/bin/pyenv install {{ item }}{{ pyenv_post }}"
+  environment:
+    PYTHON_CONFIGURE_OPTS: "--enable-shared"
   with_items:
     - "2.7.15"
     - "3.7.0"

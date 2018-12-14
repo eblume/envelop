@@ -5,7 +5,7 @@ set -x PATH ~/bin $PATH  # personal binaries
 set -x PATH $N_PREFIX/bin $PATH  # n shims
 set -x PATH ~/.npm-global/bin $PATH  # npm modules
 
-set -x EDITOR /home/erich/bin/nvim
+set -x EDITOR {{user_bin_dir}}/nvim
 
 # Golang
 set -x GOPATH ~/.config/go
@@ -23,11 +23,13 @@ set -x ANSIBLE_NOCOWS 1
 
 # pyenv stuff - pyenv claims it wants to be near the last thing in this file
 #               (due to manipulating PATH, apparently)
-set -x PYENV_ROOT "{{ nonwork_code_dir }}/pyenv"
-if not set -q POETRY_ACTIVE
-        set -x PATH $PYENV_ROOT/bin $PATH
-        status --is-interactive; and source (pyenv init -|psub)
-        status --is-interactive; and source (pyenv virtualenv-init -|psub)
+if not set -q PYENV_ROOT
+        set -x PYENV_ROOT "{{ nonwork_code_dir }}/pyenv"
+        if not set -q POETRY_ACTIVE
+                set -x PATH $PYENV_ROOT/bin $PATH
+                status --is-interactive; and source (pyenv init -|psub)
+                status --is-interactive; and source (pyenv virtualenv-init -|psub)
+        end
 end
 
 # Set up poetry
