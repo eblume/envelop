@@ -329,3 +329,7 @@ endif
 
 " Tagbar on F8
 nmap <F8> :TagbarToggle<CR>
+
+" Per default, netrw leaves unmodified buffers open. This autocommand
+" deletes netrw's buffer once it's hidden (using ':q', for example)
+autocmd FileType netrw setl bufhidden=delete
