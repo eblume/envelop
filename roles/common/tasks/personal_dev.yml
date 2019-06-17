@@ -8,6 +8,7 @@
   with_items:
     - hermes
     - envelop
+    - hermesweb
 
 - name: Install pip packages
   command: "fish -c \"source ({{ nonwork_code_dir }}/pyenv/bin/pyenv init -|psub); and pip install -U {{ item }}\""
@@ -22,8 +23,3 @@
   file:
     path: "{{ ansible_env.HOME }}/.local/share/HermesCLI"
     state: directory
-
-- name: Install hermes gcal api key
-  template:
-    src: hermes_gcal_api.json
-    dest: "{{ ansible_env.HOME }}/.local/share/HermesCLI/gcal.json"
