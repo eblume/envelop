@@ -49,6 +49,9 @@ Plugin 'mileszs/ack.vim'
 Bundle 'tpope/vim-fugitive'
 Bundle 'tpope/vim-rhubarb'
 
+" javascript
+Plugin 'pangloss/vim-javascript'
+
 " pairs
 " Bundle 'jiangmiao/auto-pairs'
 
@@ -135,20 +138,13 @@ set undofile
 set backupdir=~/.vim/sessions
 set dir=~/.vim/sessions
 
-"set background=dark
-"let g:solarized_termtrans=1
-"let g:solarized_termcolors=256
-"let g:solarized_contrast="high"
-"let g:solarized_visibility="high"
-"colorscheme solarized
-
 
 " CtrlP extension coolness stuff (uhoh)
 let g:ctrlp_extensions = ['tag', 'mixed']
 let g:ctrlp_cmd = 'CtrlPMixed'
 
 
-" Syntax highlight syncing from the start
+" Syntax highlight syncing from the top of the file (fixes Python)
 autocmd BufEnter * :syntax sync fromstart
 
 " Set <Leader> to ',' and <localleader> to "\"
@@ -283,7 +279,9 @@ nnoremap <leader>- :e .<CR>
 
 " Set up the column
 set colorcolumn=80
- 
+" highlight ColorColumn ctermbg=DARKMAGENTA guibg=#2c2d27
+let &colorcolumn=join(range(81,999),",")
+
 " Ignore pyc files
 set wildignore=*.pyc
 
@@ -333,3 +331,7 @@ nmap <F8> :TagbarToggle<CR>
 " Per default, netrw leaves unmodified buffers open. This autocommand
 " deletes netrw's buffer once it's hidden (using ':q', for example)
 autocmd FileType netrw setl bufhidden=delete
+
+" Set up colors
+set background=dark
+colorscheme space-vim-dark
