@@ -45,6 +45,9 @@ Bundle 'vim-syntastic/syntastic'
 " Ag (via Ack)
 Plugin 'mileszs/ack.vim'
 
+" vim Dim Inactive Windows
+Plugin 'blueyed/vim-diminactive'
+
 " fugitive
 Bundle 'tpope/vim-fugitive'
 Bundle 'tpope/vim-rhubarb'
@@ -266,7 +269,7 @@ nnoremap <leader>- :e .<CR>
 
 " Set up the column
 set colorcolumn=80
-" highlight ColorColumn ctermbg=DARKMAGENTA guibg=#2c2d27
+highlight ColorColumn ctermbg=235
 let &colorcolumn=join(range(81,999),",")
 
 " Ignore pyc files
@@ -345,4 +348,10 @@ match ExtraWhitespace /\s\+$/
 autocmd BufWinEnter * match ExtraWhitespace /\s\+$/
 autocmd InsertEnter * match ExtraWhitespace /\s\+\%#\@<!$/
 autocmd InsertLeave * match ExtraWhitespace /\s\+$/
-autocmd BufWinLeave * call clearmatches()
+
+hi Normal guibg=NONE ctermbg=NONE
+
+"Inactive window colors
+let g:diminactive_use_colorcolumn = 0
+let g:diminactive_use_syntax = 1
+let g:diminactive_enable_focus = 1
