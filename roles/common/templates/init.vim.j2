@@ -36,9 +36,6 @@ Plugin 'junegunn/fzf.vim'
 " Syntax support for 100+ languages
 Bundle 'sheerun/vim-polyglot'
 
-" Linting
-Bundle 'vim-syntastic/syntastic'
-
 " vim-airline
 "Plugin 'vim-airline/vim-airline'
 
@@ -63,6 +60,9 @@ Plugin 'tmux-plugins/vim-tmux-focus-events'
 
 " pairs
 " Bundle 'jiangmiao/auto-pairs'
+
+" Asynchronous Linting
+Plugin 'w0rp/ale'
 
 " editorconfig
 Plugin 'editorconfig/editorconfig-vim'
@@ -304,17 +304,23 @@ au FileType json setlocal tabstop=2 expandtab shiftwidth=2 softtabstop=2
 " copy/paste in linux
 set clipboard+=unnamed,unnamedplus
 
-" Linting via Syntastic
-let g:syntastic_always_populate_loc_list = 1
-let g:syntastic_auto_loc_list = 1
-let g:syntastic_check_on_open = 1
-let g:syntastic_check_on_wq = 0
-
-" Syntastic -- Javascript
-let g:syntastic_javascript_checkers=['eslint']
-
-" Syntastic -- Python
-let g:syntastic_python_checkers=['flake8', 'python']
+" Linting
+let g:ale_sign_column_always = 1 " always show the gutter
+let g:airline#extensions#ale#enabled = 1
+" to change gutter symbols:
+" let g:ale_sign_error = '>>'
+" let g:ale_sign_warning = '..'
+" to change gutter colors:
+" highlight clear ALEErrorSign
+" highlight clear ALEWarningSign
+let g:ale_linters = {
+\  'javascript': ['standard'],
+\}
+let g:ale_fixers = {
+\  '*': ['remove_trailing_lines', 'trim_whitespace'],
+\  'python': ['black', 'remove_trailing_lines', 'trim_whitespace'],
+\  'javascript': ['prettier_standard', 'remove_trailing_lines', 'trim_whitespace'],
+\}
 
 " Ack.vim - use Ag when able
 if executable('ag')
