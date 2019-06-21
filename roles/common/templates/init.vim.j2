@@ -1,4 +1,5 @@
 " {{ ansible_managed }}
+" vi:syntax=vim
 
 " Set up Vundle
 set nocompatible              " be iMproved, required
@@ -29,7 +30,7 @@ Plugin 'flazz/vim-colorschemes'
 Plugin 'AndrewRadev/splitjoin.vim'
 
 " Some sensible defaults
-Plugin 'tpope/sensible.vim'
+Plugin 'tpope/vim-sensible'
 
 " Surround, use it, love it
 " use cs"' to change " to '
@@ -40,7 +41,7 @@ Plugin 'tpope/sensible.vim'
 " cs]{ -- change [ to { with a space (use } to avoid the space)
 " others as well... one last example for when in Visual mode (V)
 " select, then S<p class="important"> -- surrounds your selection with a p!
-Plugin 'tpope/surround.vim'
+Plugin 'tpope/vim-surround'
 
 " FZF searching instead for ctrlp
 Plugin 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
@@ -50,7 +51,10 @@ Plugin 'junegunn/fzf.vim'
 Bundle 'sheerun/vim-polyglot'
 
 " vim-airline
-Plugin 'vim-airline/vim-airline'
+Bundle 'vim-airline/vim-airline'
+
+" tmuxline, for generating airline-compatible tmux lines
+Bundle 'edkolev/tmuxline.vim'
 
 " Ag (via Ack)
 Plugin 'mileszs/ack.vim'
