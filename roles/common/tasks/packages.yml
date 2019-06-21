@@ -11,6 +11,7 @@
       - snapd
       - xsel
       - blueman
+      - ripgrep
 
 - name: Check if slack needs to be installed
   ignore_errors: yes
