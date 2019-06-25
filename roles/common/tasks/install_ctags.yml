@@ -1,9 +1,7 @@
 ---
 
 - name: Install docutils (needed for ctags)
-  command: "fish -c \"source ({{ nonwork_code_dir }}/pyenv/bin/pyenv init -|psub); and pip install -U {{ item }}\""
-  with_items:
-    - docutils
+  command: "fish -c \"source ({{ nonwork_code_dir }}/pyenv/bin/pyenv init -|psub); and pip install -U docutils\""
 
 - name: Checkout universal-ctags
   git:

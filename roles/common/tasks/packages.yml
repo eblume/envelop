@@ -1,26 +1,42 @@
 ---
 
-- name: Install user packages
-  become: yes
-  apt:
-    state: present
-    name:
-      - firefox
-      - chromium-browser
-      - silversearcher-ag
-      - snapd
-      - xsel
-      - blueman
-      - ripgrep
+- name: Install Debian Packages
+  when: ansible_os_family == "Debian"
+  block:
+  - name: Install user packages
+    become: yes
+    apt:
+      state: latest
+      name:
+        - firefox
+        - chromium-browser
+        - silversearcher-ag
+        - snapd
+        - xsel
+        - blueman
+        - ripgrep
 
-- name: Check if slack needs to be installed
-  ignore_errors: yes
-  command: "snap list slack"
-  register: slack_installed
-  changed_when: False
+  - name: Check if slack needs to be installed
+    ignore_errors: yes
+    command: "snap list slack"
+    register: slack_installed
+    changed_when: False
 
-# Classic confinement = not as good, can get out with sneaky code.
-- name: Install slack snap with classic confinement
-  become: yes
-  command: "snap install slack --classic"
-  when: slack_installed.rc != 0
+  # Classic confinement = not as good, can get out with sneaky code.
+  - name: Install slack snap with classic confinement
+    become: yes
+    command: "snap install slack --classic"
+    when: slack_installed.rc != 0
+
+- name: Install OS X Packages
+  when: ansible_os_family == "Darwin"
+  block:
+  - name: Install user packages
+    homebrew:
+      state: latest
+      name:
+        - slack
+        - firefox
+        - chromium
+        - the_silver_searcher
+        - ripgrep

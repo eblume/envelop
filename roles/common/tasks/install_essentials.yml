@@ -7,3 +7,14 @@
   with_items:
     - build-essential
     - git
+
+- name: Install essentials (OS X)
+  when: "'osx' in group_names"
+  homebrew:
+  with_items:
+    - git
+    - coreutils
+    - findutils
+    - gnu-tar
+    - gnu-sed
+    - grep

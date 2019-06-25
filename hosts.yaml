@@ -1,0 +1,16 @@
+---
+all:
+  children:
+    development:
+      hosts:
+        ringtail:
+        allthemarbles:
+    gaming:
+      hosts:
+        ringtail:
+    osx:
+      hosts:
+        allthemarbles:
+    work:
+      hosts:
+        allthemarbles:

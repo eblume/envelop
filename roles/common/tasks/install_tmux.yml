@@ -1,6 +1,7 @@
 ---
 
-- name: Install tmux dependencies
+- name: Install tmux dependencies (Debian)
+  when: ansible_os_family == "Debian"
   apt: name="{{ packages }}" state=latest
   become: yes
   vars:
@@ -10,6 +11,18 @@
       - ncurses-dev
       - libncurses-dev  # unclear if both are needed
       - build-essential
+      - automake
+      - autoconf
+      - pkg-config
+
+- name: Install tmux dependencies (OS X)
+  when: ansible_os_family == "Darwin"
+  homebrew: name="{{ packages }}" state=latest
+  vars:
+    packages:
+      - ruby
+      - libevent
+      - ncurses
       - automake
       - autoconf
       - pkg-config
@@ -49,7 +62,5 @@
   template: src="{{ item }}.yml.j2" dest="{{ ansible_env.HOME }}/.config/tmuxinator/{{ item }}.yml"
   with_items:
     - usual
-    - devx-frontend
     - hermes
-    - vpn
-
+    - hermesweb

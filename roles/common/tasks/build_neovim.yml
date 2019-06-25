@@ -36,9 +36,3 @@
 
 - name: Create undodir directory
   file: path="{{ ansible_env.HOME }}/.vim/sessions" state=directory
-
-- name: Install Vundle
-  git:
-    repo: 'git@github.com:VundleVim/Vundle.vim.git'
-    dest: "{{ ansible_env.HOME }}/.vim/bundle/Vundle.vim"
-    version: "{{ vundle_version }}" 

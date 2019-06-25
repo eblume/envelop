@@ -1,2 +1,15 @@
 ---
+neovim_version: 'v0.3.7'
+tmux_version: '2.9a'
+fisher_version: '2.13.0'  # NB: this is quite out of date. But I don't care.
+pyenv_version: 'v1.2.12'  # latest release as of 2019-06-25
+pyenv_virtualenv_version: 'v1.1.5'
+pyenv_global_version: '3.7.3'
 
+ansible_check_mode: false  # No idea wtf is going on with this
+
+code_pen_dir: "{{ ansible_env.HOME }}/code"
+work_code_dir: "{{ code_pen_dir }}/work"
+nonwork_code_dir: "{{ code_pen_dir }}/personal"
+user_bin_dir: "{{ ansible_env.HOME }}/bin"
+fish_bin: /usr/bin/fish

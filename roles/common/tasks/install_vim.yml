@@ -1,6 +1,7 @@
 ---
 
-- name: Install neovim dependencies
+- name: Install neovim dependencies (Debian)
+  when: ansible_os_family == "Debian"
   apt: name="{{ packages }}" state=latest
   become: yes
   vars:
@@ -15,6 +16,20 @@
     - g++
     - pkg-config
     - unzip
+
+- name: Install neovim dependencies (OS X)
+  when: ansible_os_family == "Darwin"
+  homebrew: name="{{ packages }}" state=latest
+  vars:
+    packages:
+      - ninja
+      - gettext
+      - libtool
+      - autoconf
+      - automake
+      - cmake
+      - pkg-config
+      - unzip
 
 - name: Clone or Update neovim repository
   git:
@@ -41,4 +56,4 @@
     mode: "u=rw,g=,o="
 
 - name: Install/Update neovim plugins
-  command: "{{ user_bin_dir}}/nvim -c VundleUpdate -c quitall"
+  command: "{{ user_bin_dir}}/nvim -c PlugUpdate -c quitall"

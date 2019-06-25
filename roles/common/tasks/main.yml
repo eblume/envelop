@@ -9,8 +9,19 @@
 - include: install_vim.yml
 - include: install_tmux.yml
 - include: install_dotfiles.yml
-- include: install_i3.yml
 - include: install_ctags.yml
+
+# Tiling window managed (with OS X fallback)
+- include: install_i3.yml
+  when: ansible_os_family == "Debian"
+- name: Install amethyst (OS X only)
+  when: ansible_os_family == "Darwin"
+  homebrew_cask: name="amethyst" state=upgraded
+  register: amethyst_install
+- debug:
+    msg: "Amethyst requires accessibility options permissions, you must do this manually"
+  when: amethyst_install.changed
+
 
 - include: personal_dev.yml
 

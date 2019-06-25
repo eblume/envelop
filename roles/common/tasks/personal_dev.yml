@@ -13,13 +13,8 @@
 - name: Install pip packages
   command: "fish -c \"source ({{ nonwork_code_dir }}/pyenv/bin/pyenv init -|psub); and pip install -U {{ item }}\""
   with_items:
-    - pip
+    #  - pip  # causing issues with poetry :(
     - pdbpp
     - ipython
   register: pip_result
   changed_when: pip_result.rc == 0 and 'Successfully installed' in pip_result.stdout_lines[-1]
-
-- name: Make hermes CLI api key
-  file:
-    path: "{{ ansible_env.HOME }}/.local/share/HermesCLI"
-    state: directory

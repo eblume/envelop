@@ -17,7 +17,8 @@
   changed_when: false
   register: pyenv_versions_check
 
-- name: "Install required packages"
+- name: "Install required packages (Debian)"
+  when: ansible_os_family == "Debian"
   become: yes
   vars:
     packages:
@@ -38,6 +39,23 @@
     name: "{{ packages }}"
     state: latest
 
+- name: "Install required packages (OS X)"
+  when: ansible_os_family == "Darwin"
+  vars:
+    packages:
+      - readline
+      - ncurses
+      - openssl
+      - bzip2
+      - sqlite
+      - gdbm
+      - zlib
+      - tcl-tk
+      - libffi
+  homebrew:
+    name: "{{ packages }}"
+    state: latest
+
 - name: Set pyenv preamble fact
   # NOTE: it's clumsy but you need to end with \" to close it out.
   set_fact:
@@ -51,6 +69,7 @@
     PYTHON_CONFIGURE_OPTS: "--enable-shared"
   with_items:
     - "2.7.15"
+    - "3.7.3"
     - "3.7.0"
     - "3.6.5"
     - "3.6.6"
@@ -62,8 +81,8 @@
   changed_when: false
 
 - name: Install the global python version
-  when: 
-    - pyenv_global_check.stdout == 'system'
+  when:
+    - pyenv_global_check.stdout != pyenv_global_version
   command: "{{ pyenv_pre}}{{ nonwork_code_dir }}/pyenv/bin/pyenv install {{ pyenv_global_version }}{{ pyenv_post }}"
   register: pyenv_global_install
   ignore_errors: yes
@@ -76,8 +95,8 @@
     - "'already exists' not in pyenv_global_install.stderr"
 
 - name: Set the global python version
-  when: 
-    - pyenv_global_check.stdout == 'system'
+  when:
+    - pyenv_global_check.stdout != pyenv_global_version
   command: "{{ pyenv_pre }}{{ nonwork_code_dir }}/pyenv/bin/pyenv global {{ pyenv_global_version }}{{ pyenv_post }}"
 
 # Let's also install poetry here - it isn't pyenv, but it'll be useful a lot.

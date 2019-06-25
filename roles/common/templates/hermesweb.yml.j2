@@ -1,0 +1,12 @@
+# {{ ansible_managed }}
+# forked from ~/.tmuxinator/hermes.yml
+
+name: hermesweb
+root: {{nonwork_code_dir}}/hermesweb
+
+windows:
+  - coding:
+      layout: 'main-horizontal'
+      panes:
+        - poetry shell
+        - poetry shell

@@ -1,14 +1,25 @@
 ---
 
 - name: Install fish shell
+  block:
+    - name: "( ... Debian)"
+      when: ansible_os_family == "Debian"
+      become: yes
+      apt: name=fish state=latest
+    - name: "( ... OS X)"
+      when: ansible_os_family == "Darwin"
+      homebrew: name=fish state=latest
+
+- name: Register fish (OS X only)
   become: yes
-  apt: name=fish state=latest
+  command: grep -qF -- "{{ homebrew_prefix }}/bin/fish" /etc/shells || echo "{{ homebrew_prefix }}/bin/fish" >> /etc/shells
+  when: ansible_os_family == "Darwin"
 
 - name: change shell to fish
   become: yes
   user:
     name: '{{ansible_user_id}}'
-    shell: /usr/bin/fish
+    shell: '{{ fish_bin }}'
   register: shell_change
 
 - fail:
@@ -18,7 +29,7 @@
 - name: create fish config folders
   file: name="{{ ansible_env.HOME }}/.config/fish/{{ item  }}"  state=directory
   with_items:
-    - completions 
+    - completions
     - conf.d
     - functions
 
@@ -54,7 +65,7 @@
   command: "fish -c \"fisher {{ ' '.join(fisher_plugins) }}\""
   register: fisher_plugins_result
   changed_when:
-    - fisher_plugins_result.stdout 
+    - fisher_plugins_result.stdout
     - not fisher_plugins_result.stdout.starts_with('No plugins to install')
   vars:
     fisher_plugins:
@@ -62,6 +73,21 @@
       - metro
 
 # Powerline Fonts: this is to support metro, and it requires patching fonts
-- name: Install powerline patched fonts (for metro fish prompt)
+- name: Install powerline patched fonts (for metro fish prompt) (Debian only)
   become: yes
   apt: name=fonts-powerline state=latest
+  when: ansible_os_family == "Debian"
+
+  # This technically works on Linux too, maybe switch to only this?
+- name: Install powerline patched fonts (OS X only)
+  when: ansible_os_family == "Darwin"
+  block:
+    - name: Check out fonts
+      git:
+        repo: 'git@github.com:powerline/fonts.git'
+        dest: "{{ nonwork_code_dir }}/powerline-fonts"
+        version: HEAD
+      register: fonts_git
+    - name: Install fonts
+      command: "{{ nonwork_code_dir}}/powerline-fonts/install.sh"
+      when: fonts_git.changed

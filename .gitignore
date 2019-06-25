@@ -115,3 +115,6 @@ dmypy.json
 
 # ctags
 tags
+
+# poetry lockfile (not needed for this project)
+poetry.lock
