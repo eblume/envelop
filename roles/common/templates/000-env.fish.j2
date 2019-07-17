@@ -1,5 +1,9 @@
-# MANAGED BY ANSIBLE
-set -x N_PREFIX ~/n 
+# {{ ansible_managed }}
+
+set -x N_PREFIX ~/n
+
+# Clear PATH because we are going to do this manually (to fix OS X issues)
+set -x PATH /usr/local/sbin /usr/local/bin /usr/sbin /usr/bin /sbin /bin
 
 set -x PATH ~/bin $PATH  # personal binaries
 set -x PATH $N_PREFIX/bin $PATH  # n shims
@@ -23,13 +27,11 @@ set -x ANSIBLE_NOCOWS 1
 
 # pyenv stuff - pyenv claims it wants to be near the last thing in this file
 #               (due to manipulating PATH, apparently)
-if not set -q PYENV_ROOT
-        set -x PYENV_ROOT "{{ nonwork_code_dir }}/pyenv"
-        if not set -q POETRY_ACTIVE
-                set -x PATH $PYENV_ROOT/bin $PATH
-                status --is-interactive; and source (pyenv init -|psub)
-                status --is-interactive; and source (pyenv virtualenv-init -|psub)
-        end
+set -x PYENV_ROOT "{{ nonwork_code_dir }}/pyenv"
+if not set -q POETRY_ACTIVE
+        set -x PATH $PYENV_ROOT/bin $PATH
+        status --is-interactive; and source (pyenv init -|psub)
+        status --is-interactive; and source (pyenv virtualenv-init -|psub)
 end
 
 # Set up poetry

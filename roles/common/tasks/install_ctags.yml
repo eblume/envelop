@@ -3,6 +3,10 @@
 - name: Install docutils (needed for ctags)
   command: "fish -c \"source ({{ nonwork_code_dir }}/pyenv/bin/pyenv init -|psub); and pip install -U docutils\""
 
+- name: Install libxml (OS X)
+  when: ansible_os_family == "Darwin"
+  homebrew: name="libxml++" state="latest"
+
 - name: Checkout universal-ctags
   git:
     repo: "git@github.com:universal-ctags/ctags.git"

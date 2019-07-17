@@ -52,7 +52,7 @@
   ignore_errors: yes
 
 - name: Install tmuxinator
-  gem: name=tmuxinator state=present user_install=no
+  gem: name=tmuxinator state=present user_install=no executable=/usr/local/opt/ruby/bin/gem
   become: yes
 
 - name: Create tmuxinator config dir

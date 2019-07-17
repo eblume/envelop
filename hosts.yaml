@@ -4,13 +4,13 @@ all:
     development:
       hosts:
         ringtail:
-        allthemarbles:
+        ObvsMBP219:
     gaming:
       hosts:
         ringtail:
     osx:
       hosts:
-        allthemarbles:
+        ObvsMBP219:
     work:
       hosts:
-        allthemarbles:
+        ObvsMBP219:

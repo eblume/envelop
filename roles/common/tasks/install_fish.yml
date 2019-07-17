@@ -1,18 +1,26 @@
 ---
 
-- name: Install fish shell
-  block:
-    - name: "( ... Debian)"
-      when: ansible_os_family == "Debian"
-      become: yes
-      apt: name=fish state=latest
-    - name: "( ... OS X)"
+- name: Install fish shell (Debian)
+  when: ansible_os_family == "Debian"
+  become: yes
+  apt: name=fish state=latest
+
+- block:
+    - name: Install fish shell (OS X)
       when: ansible_os_family == "Darwin"
       homebrew: name=fish state=latest
 
-- name: Register fish (OS X only)
-  become: yes
-  command: grep -qF -- "{{ homebrew_prefix }}/bin/fish" /etc/shells || echo "{{ homebrew_prefix }}/bin/fish" >> /etc/shells
+    - name: Checking /etc/shells
+      shell: "grep '^{{ fish_bin }}$' /etc/shells"
+      register: osx_login_shell_exists_in_etc_shells
+      changed_when: false
+      failed_when: osx_login_shell_exists_in_etc_shells.rc not in [0, 1]
+
+    - name: Appending /etc/shells
+      lineinfile: dest=/etc/shells line={{ fish_bin }} state=present owner=root group=wheel mode=0644
+      become: True
+      when: osx_login_shell_exists_in_etc_shells.rc == 1
+
   when: ansible_os_family == "Darwin"
 
 - name: change shell to fish
@@ -43,6 +51,12 @@
     src: 000-env.fish.j2
     dest: "{{ ansible_env.HOME }}/.config/fish/conf.d/000-env.fish"
 
+- name: create fish OS X specific config
+  when: ansible_os_family == "Darwin"
+  template:
+    src: 001-homebrew.fish.j2
+    dest: "{{ ansible_env.HOME }}/.config/fish/conf.d/001-homebrew.fish"
+
 - name: create fisher folder
   file:
     name: "{{ ansible_env.HOME }}/.config/fish/functions"
@@ -70,7 +84,7 @@
   vars:
     fisher_plugins:
       - z
-      - metro
+      - fishpkg/fish-prompt-metro
 
 # Powerline Fonts: this is to support metro, and it requires patching fonts
 - name: Install powerline patched fonts (for metro fish prompt) (Debian only)
@@ -78,6 +92,9 @@
   apt: name=fonts-powerline state=latest
   when: ansible_os_family == "Debian"
 
+- name: Create fonts directory
+  when: ansible_os_family == "Darwin"
+  file: path="{{ ansible_env.HOME }}/Library/Fonts" state=directory mode=u+rwx
   # This technically works on Linux too, maybe switch to only this?
 - name: Install powerline patched fonts (OS X only)
   when: ansible_os_family == "Darwin"

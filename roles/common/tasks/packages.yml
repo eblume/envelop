@@ -35,8 +35,5 @@
     homebrew:
       state: latest
       name:
-        - slack
-        - firefox
-        - chromium
         - the_silver_searcher
         - ripgrep
