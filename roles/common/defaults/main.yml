@@ -1,6 +1,6 @@
 ---
 neovim_version: 'v0.3.8'
-tmux_version: '2.9a'
+tmux_version: '2.9'
 fisher_version: '2.13.0'  # NB: this is quite out of date. But I don't care.
 pyenv_version: 'v1.2.12'  # latest release as of 2019-06-25
 pyenv_virtualenv_version: 'v1.1.5'
