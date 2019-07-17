@@ -3,3 +3,4 @@ ansible_host: localhost
 ansible_connection: local
 homebrew_prefix: /usr/local
 fish_bin: "{{ homebrew_prefix }}/bin/fish"
+gem_bin: "{{ homebrew_prefix }}/opt/ruby/bin/gem"
