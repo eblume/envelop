@@ -36,6 +36,7 @@
     repo: 'git@github.com:neovim/neovim.git'
     dest: "{{ nonwork_code_dir }}/neovim"
     version: "{{ neovim_version }}"
+    refspec: "+refs/heads/master"
   register: neovim_git_result
 
 - stat:

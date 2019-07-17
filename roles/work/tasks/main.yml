@@ -1,0 +1,23 @@
+---
+
+- name: Set work code dir
+  set_fact: work_dir="{{ansible_env.HOME}}/code/work"
+
+- name: Create work dir
+  file:
+    path: work_dir
+    state: directory
+
+- name: Check out work projects
+  git:
+    repo: "git@github.com:medium/{{ item }}.git"
+    dest: "{{ work_dir }}/{{ item }}"
+    update: no
+  with_items:
+    - mono
+    - picchu
+    - notebooks
+    - hangtag
+    - infra
+    - homebrew-custom
+    - starship

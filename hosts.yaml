@@ -11,6 +11,6 @@ all:
     osx:
       hosts:
         ObvsMBP219:
-    work:
+    workmachines:
       hosts:
         ObvsMBP219:
