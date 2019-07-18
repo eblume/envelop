@@ -85,6 +85,7 @@
     fisher_plugins:
       - z
       - fishpkg/fish-prompt-metro
+      - danhper/fish-ssh-agent
 
 # Powerline Fonts: this is to support metro, and it requires patching fonts
 - name: Install powerline patched fonts (for metro fish prompt) (Debian only)

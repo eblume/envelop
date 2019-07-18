@@ -1,6 +1,16 @@
 # {{ ansible_managed }}
+# vi:syntax=fish
 
 alias mux "tmuxinator"
 alias vim "nvim"
 
 set -x VIRTUAL_ENV_DISABLE_PROMPT 0
+
+
+function gowork --description 'ssh + tmux to tmuxinator workspace, default usual'
+        if set -q $argv
+                ssh eblume@10.0.1.10 -t mux usual
+        else
+                ssh eblume@10.0.1.10 -t mux $argv
+        end
+end
