@@ -28,7 +28,8 @@
 
 - name: Install i3 and support packages
   become: yes
-  apt: name={{ item }} state=latest
-  with_items:
-    - i3
-    - i3lock
+  apt:
+    pkg:
+      - i3
+      - i3lock
+    state: latest

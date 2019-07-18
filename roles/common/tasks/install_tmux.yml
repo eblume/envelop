@@ -2,10 +2,10 @@
 
 - name: Install tmux dependencies (Debian)
   when: ansible_os_family == "Debian"
-  apt: name="{{ packages }}" state=latest
   become: yes
-  vars:
-    packages:
+  apt:
+    state: latest
+    pkg:
       - ruby # only for tmuxinator, not tmux
       - libevent-dev
       - ncurses-dev
@@ -17,9 +17,9 @@
 
 - name: Install tmux dependencies (OS X)
   when: ansible_os_family == "Darwin"
-  homebrew: name="{{ packages }}" state=latest
-  vars:
-    packages:
+  homebrew:
+    state: latest
+    name:
       - ruby
       - libevent
       - ncurses

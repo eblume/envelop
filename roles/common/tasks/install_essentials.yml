@@ -3,18 +3,20 @@
 - name: Install essentials (Debian)
   become: yes
   when: ansible_os_family == "Debian"
-  apt: name="{{item}}" state=present
-  with_items:
-    - build-essential
-    - git
+  apt:
+    state: present
+    pkg:
+      - build-essential
+      - git
 
 - name: Install essentials (OS X)
-  when: "'osx' in group_names"
+  when: ansible_os_family == "Darwin"
   homebrew:
-  with_items:
-    - git
-    - coreutils
-    - findutils
-    - gnu-tar
-    - gnu-sed
-    - grep
+    state: latest
+    name:
+      - git
+      - coreutils
+      - findutils
+      - gnu-tar
+      - gnu-sed
+      - grep
