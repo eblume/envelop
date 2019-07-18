@@ -74,18 +74,25 @@
     dest: "{{ ansible_env.HOME }}/.config/fish/functions/fisher.fish"
     state: link
 
-# We could save ~1s if we parsed `fisher ls` first, but whatever :)
-- name: Install fisher plugins
-  command: "fish -c \"fisher {{ ' '.join(fisher_plugins) }}\""
+- name: create fishfile
+  lineinfile:
+    create: yes
+    line: "{{ item }}"
+    state: present
+    path: "{{ ansible_env.HOME}}/.config/fish/fishfile"
+  with_items:
+    - jethrokuan/z
+    - fishpkg/fish-prompt-metro
+    - danhper/fish-ssh-agent
+  register: fishfile_change
+
+- name: initialize fisherman plugins
+  command: "fish -c fisher"
+  when: fishfile_change.changed
   register: fisher_plugins_result
   changed_when:
     - fisher_plugins_result.stdout
     - not fisher_plugins_result.stdout.starts_with('No plugins to install')
-  vars:
-    fisher_plugins:
-      - z
-      - fishpkg/fish-prompt-metro
-      - danhper/fish-ssh-agent
 
 # Powerline Fonts: this is to support metro, and it requires patching fonts
 - name: Install powerline patched fonts (for metro fish prompt) (Debian only)

@@ -5,7 +5,7 @@
 
 - name: Install libxml (OS X)
   when: ansible_os_family == "Darwin"
-  homebrew: name="libxml++" state="latest"
+  homebrew: name="libxml2" state="latest"
 
 - name: Checkout universal-ctags
   git:
