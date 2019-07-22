@@ -26,3 +26,37 @@
   template:
     src: 002-work.fish.j2
     dest: "{{ ansible_env.HOME }}/.config/fish/conf.d/002-work.fish"
+
+- name: Checkout n
+  git:
+    repo: "git@github.com:tj/n.git"
+    dest: "{{ work_code_dir }}/n"  # not a typo
+    version: "{{ n_version }}"
+
+- name: Install n
+  make:
+    chdir: "{{ work_code_dir }}/n"
+    target: install
+  environment:
+    PREFIX: "{{ user_bin_dir }}/.."  # /home/eblume/bin/../bin/n
+
+- name: Install node versions
+  command: "n {{ item }}"
+  with_items:
+    - 12.6.0
+    - latest  # TODO: find a way to make n not activate this, like pyenv doesn't
+
+- name: Link in work-specific fish config
+  file:
+    src: "{{ work_dir }}/mono/script/fish/conf.d/medium_mono.fish"
+    dest: "{{ ansible_env.HOME }}/.config/fish/conf.d/003-work-mono.fish"
+    state: link
+
+- name: Link in work-specific fish functions
+  file:
+    src: "{{ work_dir }}/mono/script/fish/functions/{{ item }}"
+    dest: "{{ ansible_env.HOME }}/.config/fish/functions/{{ item }}"
+    state: link
+  with_items:
+    - ok.fish
+    - use.fish

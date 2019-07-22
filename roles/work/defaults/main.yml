@@ -1,0 +1,5 @@
+---
+n_version: v4.1.0
+
+work_code_dir: "{{ ansible_env.HOME }}/code/work"
+user_bin_dir: "{{ ansible_env.HOME }}/bin"
