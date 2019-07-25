@@ -7,4 +7,6 @@ echo "Installing ansible..."
 sudo apt install ansible
 
 # NB: the initial version of this also installed sudo and set the proper
-# sudo group, but we don't seem to need that now.
+# sudo group, to avoid needing to enter a password. Instead, use --ask-become-pass
+# to enter your user password. You can choose to set up no-password install if
+# you wish.
