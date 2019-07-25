@@ -1,5 +1,12 @@
 ---
 
+- name: Install neovim dependencies (OS X)
+  when: ansible_os_family == "Darwin"
+  homebrew: name="{{ packages }}" state=latest
+  vars:
+    packages:
+      - libxml2
+
 - name: Install docutils (needed for ctags)
   command: "fish -c \"source ({{ nonwork_code_dir }}/pyenv/bin/pyenv init -|psub); and pip install -U docutils\""
 

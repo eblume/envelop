@@ -30,7 +30,6 @@
       - cmake
       - pkg-config
       - unzip
-      - libxml2
 
 - name: Create neovim dir
   file:
