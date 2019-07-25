@@ -1,4 +1,5 @@
 # {{ ansible_managed }}
+# vi:syntax=fish
 
 set -x N_PREFIX ~/n
 
@@ -12,8 +13,12 @@ set -x PATH ~/.npm-global/bin $PATH  # npm modules
 set -x EDITOR {{user_bin_dir}}/nvim
 
 # pbcopy/pbpaste like in OS X because my brain is mush
-alias pbcopy "xsel --clipboard --input"
-alias pbpaste "xsel --clipboard --output"
+if not type -q pbcopy
+        alias pbcopy "xsel --clipboard --input"
+end
+if not type -q pbpaste
+        alias pbpaste "xsel --clipboard --output"
+end
 
 # Set up snaps
 set -x PATH /snap/bin $PATH
