@@ -1,7 +1,29 @@
 Envelop
 Erich Blume
-blume.erich@gmail.com
-September 2018
 
-This repository is the beginning of an automation project that has some pretty
-big aims, but for now aims to standardize my development environment.
+This is an ansible project to deploy my development environment and dotfiles.
+Use it as a jumping off point for your own work, as this is highly customized
+to my own setup.
+
+To run, first bootstrap with:
+
+    ./bin/bootstrap_{debian,osx}  # use the proper version for your OS
+    ./bin/link_paths /etc/ansible  # instead of /etc/ansible you can use any config directory you want, but /etc/ansible is the common default.
+
+Then, edit at minimum the following files to ensure they match your setup (you
+should audit all files though):
+
+    ./host_vars/{your_machine_hostname}.yaml
+    ./playbooks/provision.yaml
+    ./roles/common/tasks/personal_dev.yaml  # you probably don't want my personal projects, you probably want your own. Your call. :)
+
+If you don't want to use the fish shell, you'll need to edit the following
+files:
+
+    ./roles/common/tasks/main.yml  # You'll want to remove 'install_fish.yml'
+    ./roles/common/tasks/install_pyenv.yml  # You'll want to remove the kludge I have in place to invoke fish on all of those installs for poetry
+    ./roles/common/taskks/install_ctags.yml  # Same here, you'll need to remove the fish invocation for docutils
+
+Finally, to run envelop's provisioning agent, use:
+
+    ./run_local.sh --ask-become-pass  # you can remove --ask-become-pass if you have password-less SUDO enabled
