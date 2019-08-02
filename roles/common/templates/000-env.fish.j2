@@ -29,14 +29,12 @@ set -x ANSIBLE_NOCOWS 1
 # gaaaaames
 set -x PATH /usr/games $PATH
 
+# Set up poetry
+set -x PATH ~/.poetry/bin $PATH
+
 # pyenv stuff - pyenv claims it wants to be near the last thing in this file
 #               (due to manipulating PATH, apparently)
 set -x PYENV_ROOT "{{ nonwork_code_dir }}/pyenv"
-if not set -q POETRY_ACTIVE
-        set -x PATH $PYENV_ROOT/bin $PATH
-        status --is-interactive; and source (pyenv init -|psub)
-        status --is-interactive; and source (pyenv virtualenv-init -|psub)
-end
-
-# Set up poetry
-set -x PATH ~/.poetry/bin $PATH
+set -x PATH $PYENV_ROOT/bin $PATH
+status --is-interactive; and source (pyenv init -|psub)
+status --is-interactive; and source (pyenv virtualenv-init -|psub)
