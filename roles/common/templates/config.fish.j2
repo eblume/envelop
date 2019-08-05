@@ -10,8 +10,17 @@ set -x VIRTUAL_ENV_DISABLE_PROMPT 0
 
 function gowork --description 'ssh + tmux to tmuxinator workspace, default usual'
         if set -q $argv
-                ssh eblume@10.0.1.10 -t mux usual
+                exec ssh eblume@10.0.1.10 -t mux $argv
         else
-                ssh eblume@10.0.1.10 -t mux $argv
+                exec ssh eblume@10.0.1.10 -t mux usual
+        end
+end
+
+
+function tagit --description 'ctags -R $@ ; with some exclusions, default is "."'
+        if set -q $argv
+                exec ctags -R --exclude=.mypy_cache --exclude=node_modules $argv
+        else
+                exec ctags -R --exclude=.mypy_cache --exclude=node_modules .
         end
 end

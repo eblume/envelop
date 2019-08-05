@@ -60,3 +60,20 @@
   with_items:
     - ok.fish
     - use.fish
+
+- name: Check if yarn is installed
+  stat: path="{{ ansible_env.HOME }}/.yarn/bin/yarn"
+  register: yarn_stat_result
+
+- name: Download yarn install script
+  when: yarn_stat_result.stat.exists == False
+  get_url:
+    url: https://yarnpkg.com/install.sh
+    dest: "{{ ansible_env.HOME }}/code/personal/yarn_install.sh"
+    mode: u+rwx
+
+- name: Run yarn install script
+  shell: yarn_install.sh
+  args:
+    chdir: "{{ ansible_env.HOME }}/code/personal"
+    creates: "{{ ansible_env.HOME }}/.yarn/bin/yarn"

@@ -4,7 +4,7 @@
 set -x MONO_HOME $HOME/code/work/mono
 set -x MONO_BIN $MONO_HOME/script/bin
 set -x GOPATH $HOME/go $MONO_HOME/golang
-set -x PATH $MONO_HOME/golang/bin $MONO_HOME/script/bin /opt/medium/bin $HOME/go/bin $PATH
+set -x PATH $MONO_HOME/golang/bin $MONO_HOME/script/bin /opt/medium/bin $HOME/go/bin $HOME/.yarn/bin $PATH
 
 function unlock --description "Unlock the security keychain 'unlock <password>'"
         security unlock-keychain -p $argv $HOME/Library/Keychains/login.keychain-db
