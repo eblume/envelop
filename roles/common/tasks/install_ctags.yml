@@ -13,6 +13,7 @@
 - name: Install libxml (OS X)
   when: ansible_os_family == "Darwin"
   homebrew: name="libxml2" state="latest"
+  # See also: https://github.com/mitmproxy/mitmproxy/issues/68#issuecomment-427751589
 
 - name: Checkout universal-ctags
   git:
