@@ -7,20 +7,22 @@ alias poetry_shell '. (dirname (poetry run which python))/activate.fish'
 
 set -x VIRTUAL_ENV_DISABLE_PROMPT 0
 
+set -x LAPTOP_IP "192.168.1.27"
+
 
 function gowork --description 'ssh + tmux to tmuxinator workspace, default usual'
         if set -q $argv
-                ssh eblume@10.0.1.10 -t mux $argv
+                ssh eblume@$LAPTOP_IP -t mux usual
         else
-                ssh eblume@10.0.1.10 -t mux usual
+                ssh eblume@$LAPTOP_IP -t mux $argv
         end
 end
 
 
 function tagit --description 'ctags -R $@ ; with some exclusions, default is "."'
         if set -q $argv
-                ctags -R --exclude=.mypy_cache --exclude=node_modules $argv
-        else
                 ctags -R --exclude=.mypy_cache --exclude=node_modules .
+        else
+                ctags -R --exclude=.mypy_cache --exclude=node_modules $argv
         end
 end
