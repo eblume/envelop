@@ -4,7 +4,7 @@ tmux_version: '3.0a'
 fisher_version: '2.13.0'  # NB: this is quite out of date. But I don't care.
 pyenv_version: 'v1.2.15'  # latest release as of 2019-12-21
 pyenv_virtualenv_version: 'v1.1.5'
-pyenv_global_version: '3.7.3'
+pyenv_global_version: '3.8.0'
 
 ansible_check_mode: false  # No idea wtf is going on with this
 
