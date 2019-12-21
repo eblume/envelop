@@ -1,0 +1,20 @@
+# {{ ansible_managed }}
+# vi:syntax=jinja2
+
+mk_add_options MOZ_OBJDIR={{ nonwork_code_dir }}/firefox/build
+mk_add_options MOZ_MAKE_FLAGS="-j8"
+
+ac_add_options --enable-application=browser
+
+# Disable if you're working on firefox dev
+ac_add_options --enable-optimize
+
+# Enable this if you're working on firefox dev
+# ac_add_options --enable-debug
+# ac_add_options --disable-optimize
+# ac_add_options --enable-debug-js-modules
+
+mk_add_options AUTOCLOBBER=1
+ac_add_options --enable-crashreporter
+
+ac_add_options --enable-artifact-builds

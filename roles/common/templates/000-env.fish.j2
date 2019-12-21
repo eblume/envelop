@@ -26,6 +26,9 @@ set -x PATH /snap/bin $PATH
 # Sorry ansible, I dont like the cows much :(
 set -x ANSIBLE_NOCOWS 1
 
+# Building firefox requires a global var now I guess
+set -x MOZCONFIG $HOME/.mozconfig
+
 # gaaaaames
 set -x PATH /usr/games $PATH
 

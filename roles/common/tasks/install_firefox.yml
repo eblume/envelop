@@ -1,0 +1,34 @@
+---
+# This is linux only for now but there's no reason for that, just lazy
+
+- name: Install firefox (OS X)
+  when: ansible_os_family == "Darwin"
+  homebrew: name="firefox" state=latest
+
+- name: Install firefox (Linux)
+  when: ansible_os_family == "Debian"
+  block:
+
+    - name: Determine firefox version, if any
+      command: firefox -v
+      register: installed_version_ret
+      ignore_errors: True
+      changed_when: False
+
+    - set_fact:
+        installed_version: "{{ (installed_version_ret.stdout | regex_search('\d+\.\d+($)') | trim) if installed_version_ret.rc == 0 else '0.0' }}"
+
+    - name: Query latest firefox version
+      uri:
+        url: "https://download.mozilla.org/?product=firefox-latest&os=linux64&lang=en-US'"
+        method: HEAD
+        follow_redirects: all  # We are redirected to the latest version's URL
+      register: latest_version_req
+      changed_when: False
+
+    - set_fact:
+        latest_version: "{{ latest_version_req.stdout | regex_search('\d+\.\d+($)') | trim }}"
+
+    - name: Build and install a new version of firefox...
+      when: installed_version is version(latest_version, "<")
+      include: build_firefox.yml

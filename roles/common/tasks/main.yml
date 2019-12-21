@@ -4,6 +4,7 @@
 
 - include: install_essentials.yml
 - include: code_pen.yml
+#- include: install_firefox.yml
 - include: install_fish.yml
 - include: install_pyenv.yml
 - include: install_vim.yml

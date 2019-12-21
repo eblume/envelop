@@ -9,6 +9,12 @@
     chdir: "{{ nonwork_code_dir }}/tmux"
   ignore_errors: yes
 
+- name: Delete pesky nightly tag from tmux repository (sheesh x2)
+  command: git tag -d nightly
+  args:
+    chdir: "{{ nonwork_code_dir }}/tmux"
+  ignore_errors: yes
+
 - name: Configure tmux autogen
   command: sh autogen.sh
   args:

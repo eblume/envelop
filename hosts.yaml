@@ -4,13 +4,6 @@ all:
     development:
       hosts:
         ringtail:
-        ObvsMBP219:
     gaming:
       hosts:
         ringtail:
-    osx:
-      hosts:
-        ObvsMBP219:
-    workmachines:
-      hosts:
-        ObvsMBP219:
