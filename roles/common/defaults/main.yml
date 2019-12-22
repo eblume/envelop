@@ -1,6 +1,6 @@
 ---
 neovim_version: 'v0.4.3'  # as of 2019-12-21, 0.5 is about to come out
-tmux_version: '3.0a'
+tmux_version: '2.8'  # as of 2019-12-21, 3.0a is out but isn't compatible with tmuxinator
 fisher_version: '2.13.0'  # NB: this is quite out of date. But I don't care.
 pyenv_version: 'v1.2.15'  # latest release as of 2019-12-21
 pyenv_virtualenv_version: 'v1.1.5'
