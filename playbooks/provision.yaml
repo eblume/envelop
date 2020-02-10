@@ -2,6 +2,6 @@
 - hosts: all
   roles:
     - common
-#- hosts: workmachines
-#  roles:
-#    - work
+- hosts: workmachines
+  roles:
+    - work

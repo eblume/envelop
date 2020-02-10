@@ -10,70 +10,30 @@
 
 - name: Check out work projects
   git:
-    repo: "git@github.com:medium/{{ item }}.git"
+    repo: "git@github.com:Coffee-Meets-Bagel/{{ item }}.git"
     dest: "{{ work_dir }}/{{ item }}"
     update: no
   with_items:
-    - mono
-    - picchu
-    - notebooks
-    - hangtag
-    - infra
-    - homebrew-custom
-    - starship
+    - Project-Vitamin
+    - PushService
+    - feature-engine-db-client
+    - CMBAndroid
+    - CMBiOS
+    - py-rabbitmq-client
+    - etl-dw
+    - feature-engine-consumer
+    - CMBJupyter
+    - DataCommon
+    - devops
+    - CMBSchemas
+    - postman
+    - qa
+    - ottobot
+    - gitana
+    - cmb-docker
+    - model-service
 
 - name: Add work config to fish
   template:
     src: 002-work.fish.j2
     dest: "{{ ansible_env.HOME }}/.config/fish/conf.d/002-work.fish"
-
-- name: Checkout n
-  git:
-    repo: "git@github.com:tj/n.git"
-    dest: "{{ work_code_dir }}/n"  # not a typo
-    version: "{{ n_version }}"
-
-- name: Install n
-  make:
-    chdir: "{{ work_code_dir }}/n"
-    target: install
-  environment:
-    PREFIX: "{{ user_bin_dir }}/.."  # /home/eblume/bin/../bin/n
-
-- name: Install node versions
-  command: "n {{ item }}"
-  with_items:
-    - 12.6.0
-    - latest  # TODO: find a way to make n not activate this, like pyenv doesn't
-
-- name: Link in work-specific fish config
-  file:
-    src: "{{ work_dir }}/mono/script/fish/conf.d/medium_mono.fish"
-    dest: "{{ ansible_env.HOME }}/.config/fish/conf.d/003-work-mono.fish"
-    state: link
-
-- name: Link in work-specific fish functions
-  file:
-    src: "{{ work_dir }}/mono/script/fish/functions/{{ item }}"
-    dest: "{{ ansible_env.HOME }}/.config/fish/functions/{{ item }}"
-    state: link
-  with_items:
-    - ok.fish
-    - use.fish
-
-- name: Check if yarn is installed
-  stat: path="{{ ansible_env.HOME }}/.yarn/bin/yarn"
-  register: yarn_stat_result
-
-- name: Download yarn install script
-  when: yarn_stat_result.stat.exists == False
-  get_url:
-    url: https://yarnpkg.com/install.sh
-    dest: "{{ ansible_env.HOME }}/code/personal/yarn_install.sh"
-    mode: u+rwx
-
-- name: Run yarn install script
-  shell: yarn_install.sh
-  args:
-    chdir: "{{ ansible_env.HOME }}/code/personal"
-    creates: "{{ ansible_env.HOME }}/.yarn/bin/yarn"

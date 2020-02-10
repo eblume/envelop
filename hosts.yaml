@@ -4,6 +4,11 @@ all:
     development:
       hosts:
         ringtail:
+        indri:
     gaming:
       hosts:
         ringtail:
+    workmachines:
+      hosts:
+        ringtail:
+        indri:
