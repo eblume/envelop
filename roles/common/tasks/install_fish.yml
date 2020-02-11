@@ -11,13 +11,13 @@
       homebrew: name=fish state=latest
 
     - name: Checking /etc/shells
-      shell: "grep '^{{ fish_bin }}$' /etc/shells"
+      shell: "grep '^{{ fish_bin_osx }}$' /etc/shells"
       register: osx_login_shell_exists_in_etc_shells
       changed_when: false
       failed_when: osx_login_shell_exists_in_etc_shells.rc not in [0, 1]
 
     - name: Appending /etc/shells
-      lineinfile: dest=/etc/shells line={{ fish_bin }} state=present owner=root group=wheel mode=0644
+      lineinfile: dest=/etc/shells line={{ fish_bin_osx }} state=present owner=root group=wheel mode=0644
       become: True
       when: osx_login_shell_exists_in_etc_shells.rc == 1
 
@@ -29,6 +29,15 @@
     name: '{{ansible_user_id}}'
     shell: '{{ fish_bin }}'
   register: shell_change
+  when: ansible_os_family != "Darwin"
+
+- name: change shell to fish, OS X style  # TODO undo this hack
+  become: yes
+  user:
+    name: '{{ansible_user_id}}'
+    shell: '{{ fish_bin_osx }}'
+  register: shell_change
+  when: ansible_os_family == "Darwin"
 
 - fail:
     msg: "Your shell has changed, please create a new login shell (log out and log in)"

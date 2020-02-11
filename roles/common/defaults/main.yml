@@ -1,5 +1,5 @@
 ---
-neovim_version: 'v0.4.3'  # as of 2019-12-21, 0.5 is about to come out
+neovim_version: 'v0.4.3'
 tmux_version: '2.8'  # as of 2019-12-21, 3.0a is out but isn't compatible with tmuxinator
 fisher_version: '2.13.0'  # NB: this is quite out of date. But I don't care.
 pyenv_version: 'v1.2.15'  # latest release as of 2019-12-21
@@ -13,4 +13,5 @@ work_code_dir: "{{ code_pen_dir }}/work"
 nonwork_code_dir: "{{ code_pen_dir }}/personal"
 user_bin_dir: "{{ ansible_env.HOME }}/bin"
 fish_bin: /usr/bin/fish
+fish_bin_osx: /usr/local/bin/fish   # TODO - rearchitect to use one variable
 gem_bin: /usr/bin/gem

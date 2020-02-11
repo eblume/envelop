@@ -110,7 +110,7 @@
   get_url:
     url: https://raw.githubusercontent.com/sdispater/poetry/master/get-poetry.py
     dest: "{{ nonwork_code_dir }}/get-poetry.py"
-    mode: 0440
+    mode: 0660
 
 - name: Install/Update poetry
   command: "{{ pyenv_pre }} python {{ nonwork_code_dir }}/get-poetry.py -y {{ pyenv_post }}"
