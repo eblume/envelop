@@ -1,0 +1,20 @@
+---
+
+- name: Download rbenv-installer.sh
+  get_url:
+    url: "https://github.com/rbenv/rbenv-installer/raw/master/bin/rbenv-installer"
+    dest: "{{ nonwork_code_dir }}/rbenv-installer.sh"
+    mode: '0550'
+
+- name: Run rbenv-installer.sh (update, install, idempotent)
+  command: "{{ nonwork_code_dir }}/rbenv-installer.sh"
+
+- name: Install Ruby versions
+  command: "{{ rbenv_bin }} install {{ item }}"
+  with_items:
+    - 2.7.1
+  register: rbenv_result
+  failed_when: "'already exists' not in rbenv_result.stderr"
+
+- name: Set global ruby version
+  command: "{{ rbenv_bin }} global {{ rbenv_global_version }}"
