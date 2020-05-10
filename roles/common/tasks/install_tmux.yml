@@ -6,7 +6,6 @@
   apt:
     state: latest
     pkg:
-      - ruby # only for tmuxinator, not tmux
       - libevent-dev
       - ncurses-dev
       - libncurses-dev  # unclear if both are needed
@@ -14,6 +13,7 @@
       - automake
       - autoconf
       - pkg-config
+      - bison  # needed for yacc, new dep??
 
 - name: Install tmux dependencies (OS X)
   when: ansible_os_family == "Darwin"
@@ -51,9 +51,26 @@
   command: "{{ user_bin_dir}}/tmux source {{ ansible_env.HOME}}/.tmux.conf"
   ignore_errors: yes
 
-- name: Install tmuxinator
-  gem: name=tmuxinator state=present user_install=no executable="{{ gem_bin }}"
-  become: yes
+- name: Clone or Update the tmuxinator repository
+  git:
+    repo: 'git@github.com:tmuxinator/tmuxinator.git'
+    dest: "{{ nonwork_code_dir }}/tmuxinator"
+    version: "v{{ tmuxinator_version }}"
+  register: tmuxinator_git_result
+
+- name: Build tmuxinator from gemspec
+  when: tmuxinator_git_result.changed
+  block:
+    - name: Build gemfile from gemspec
+      shell:
+        chdir: "{{ nonwork_code_dir }}/tmuxinator"
+        cmd: "{{ gem_bin }} build tmuxinator.gemspec"
+    - name: Install gem
+      become: yes
+      gem:
+        name: "tmuxinator"
+        gem_source: "{{ nonwork_code_dir }}/tmuxinator/tmuxinator-{{ tmuxinator_version }}.gem"
+        state: present
 
 - name: Create tmuxinator config dir
   file: path="{{ ansible_env.HOME }}/.config/tmuxinator" state=directory

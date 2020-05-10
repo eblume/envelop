@@ -18,10 +18,8 @@ set -g default-terminal "screen-256color"
 # vi mode copy
 set-window-option -g mode-keys vi
 bind -T copy-mode-vi v send-keys -X begin-selection
-bind -T copy-mode-vi y send-keys -X copy-selection
+bind -T copy-mode-vi y send-keys -X copy-pipe-and-cancel 'xclip -in -selection clipboard'
 bind -T copy-mode-vi r send-keys -X rectangle-toggle
-bind -T copy-mode-vi y send -X copy-pipe "pbcopy"
-bind -T copy-mode-vi Enter send-keys -X copy-pipe-and-cancel "pbcopy"
 
 # vim-like pane movement
 bind-key h select-pane -L
@@ -37,6 +35,9 @@ bind-key Left select-pane -L
 
 # fix vim focus events
 set -g focus-events on
+
+# Alias for ringtail's main monitor
+set -s command-alias[15] rt='resize-pane -R 120'
 
 #### PLUGINS
 # set -g @plugin 'tmux-plugins/tpm'

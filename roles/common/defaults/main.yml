@@ -1,10 +1,12 @@
 ---
-neovim_version: 'v0.4.3'
-tmux_version: '2.8'  # as of 2019-12-21, 3.0a is out but isn't compatible with tmuxinator
-fisher_version: '2.13.0'  # NB: this is quite out of date. But I don't care.
-pyenv_version: 'v1.2.15'  # latest release as of 2019-12-21
-pyenv_virtualenv_version: 'v1.1.5'
-pyenv_global_version: '3.8.0'
+neovim_version: 'v0.4.3'  # as of 10-May-2020. 0.5 is in 'nightly', it's unclear when it will come out
+tmux_version: '3.1b'  # as of 10-May-2020
+tmuxinator_version: '2.0.1'  # as of 10-May-2020  - prefix of 'v' is applied in build templ.
+fisher_version: '3.2.9'
+pyenv_version: 'v1.2.18'  # latest release as of 10-May-2020
+pyenv_virtualenv_version: 'v1.1.5'  # Released Feb 13 2019. Watch for stagnancy.
+pyenv_global_version: '3.8.2'
+rbenv_global_version: '2.7.1'
 
 ansible_check_mode: false  # No idea wtf is going on with this
 
@@ -15,3 +17,4 @@ user_bin_dir: "{{ ansible_env.HOME }}/bin"
 fish_bin: /usr/bin/fish
 fish_bin_osx: /usr/local/bin/fish   # TODO - rearchitect to use one variable
 gem_bin: /usr/bin/gem
+rbenv_bin: "{{ ansible_env.HOME }}/.rbenv/bin/rbenv"

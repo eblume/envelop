@@ -37,3 +37,39 @@
   template:
     src: 002-work.fish.j2
     dest: "{{ ansible_env.HOME }}/.config/fish/conf.d/002-work.fish"
+
+# TODO - docker for OS X
+
+- name: Install docker (Linux)
+  when: ansible_os_family == "Debian"
+  become: yes
+  block:
+
+    - name: Add docker apt key
+      apt_key:
+        url: https://download.docker.com/linux/ubuntu/gpg
+        state: present
+
+    - name: Add docker apt repo
+      apt_repository:
+        repo: "deb [arch=amd64] https://download.docker.com/linux/ubuntu disco stable"
+        state: present
+
+    - name: Install docker
+      become: yes
+      apt:
+        state: latest
+        name:
+          - docker-ce
+
+- name: Install VPN (Linux)
+  when: ansible_os_family == "Debian"
+  block:
+
+    - name: Install openvpn
+      become: yes
+      apt:
+        state: latest
+        name:
+          - openvpn
+          - network-manager-openvpn

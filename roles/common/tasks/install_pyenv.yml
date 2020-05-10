@@ -67,7 +67,7 @@
   command: "{{ pyenv_pre }} {{ nonwork_code_dir }}/pyenv/bin/pyenv install {{ item }}{{ pyenv_post }}"
   environment:
     PYTHON_CONFIGURE_OPTS: "--enable-shared"
-  with_items:
+  with_items:  # TODO - muck this out, we probably don't need nearly any of them
     - "2.7.15"
     - "3.7.3"
     - "3.7.0"
@@ -75,6 +75,7 @@
     - "3.6.6"
     - "3.7.4"
     - "3.8.0"
+    - "3.8.2"
     - "pypy3.5-6.0.0"
 
 - name: Check which version of pyenv is global

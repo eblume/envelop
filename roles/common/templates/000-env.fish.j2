@@ -35,6 +35,11 @@ set -x PATH /usr/games $PATH
 # Set up poetry
 set -x PATH ~/.poetry/bin $PATH
 
+# rbenv stuff
+# (placing just before pyenv)
+set -x PATH ~/.rbenv/bin ~/.rbenv/shims $PATH
+status --is-interactive; and rbenv init - | source
+
 # pyenv stuff - pyenv claims it wants to be near the last thing in this file
 #               (due to manipulating PATH, apparently)
 set -x PYENV_ROOT "{{ nonwork_code_dir }}/pyenv"
