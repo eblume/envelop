@@ -120,3 +120,4 @@
 
 - name: Set poetry completions
   command: "fish -c \"{{ ansible_env.HOME}}/.poetry/bin/poetry completions fish > {{ ansible_env.HOME}}/.config/fish/completions/poetry.fish\""
+  when: poetry_update.changed
