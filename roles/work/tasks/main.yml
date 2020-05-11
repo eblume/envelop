@@ -73,3 +73,8 @@
         name:
           - openvpn
           - network-manager-openvpn
+
+- name: Install VPN tmux config
+  template:
+    src: "vpn.yml.j2"
+    dest: "{{ ansible_env.HOME }}/.config/tmuxinator/vpn.yml"

@@ -1,0 +1,10 @@
+# {{ ansible_managed }}
+# ~/.tmuxinator/vpn.yml
+
+name: vpn
+
+windows:
+  - coding:
+      root: ~/code
+      panes:
+        - sudo openvpn --config ~/erich.ovpn
