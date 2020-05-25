@@ -1,5 +1,4 @@
 ---
-
 - name: Install neovim dependencies (Debian)
   when: ansible_os_family == "Debian"
   apt: name="{{ packages }}" state=latest
@@ -68,3 +67,7 @@
 
 - name: Install/Update neovim plugins
   command: "{{ user_bin_dir}}/nvim -c PlugUpdate -c quitall"
+# Note to self: I tried to add a 'changed_when' here, and the closest I got to
+# was that you can inspect the output of the PlugDiff command to see what was changed.
+# I decided to give up before I figured out how to parse that out properly from the
+# curses-style output.
