@@ -1,0 +1,20 @@
+---
+
+# This script handles the installation of a userspace ansible. It will ensure
+# all dependencies are met, check out the code in to the personal code space,
+# and build the project. It will then add that ansible to PATH, overriding the
+# existing path. If this task ends up building the user ansible for the first
+# time, the build is then failed with a log message to start again, now using
+# the new ansible.
+#
+# Why do we do this? on July 28 2020 I found out that a bug I've been dealing
+# with for years now causing the `git` module to not respect the `force` flag
+# when running `git fetch`... was found and fixed in April! Problem: the Ubuntu
+# ansible package is from February 2019. So I guess now we are building ansible
+# from source. And frankly that make sense to me, so I'm cool with this change.
+
+- name: Install ansible dependencies
+- name: Check out the ansible code
+- name: Build ansible
+- name: Update PATH for userspace ansible
+- name: Fail the playbook if a new ansible was built

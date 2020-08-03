@@ -2,6 +2,8 @@
 
 - include: hacks.yml
 
+- include: install_ansible.yml
+
 - include: install_essentials.yml
 - include: code_pen.yml
 #- include: install_firefox.yml

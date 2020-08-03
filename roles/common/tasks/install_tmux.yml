@@ -32,6 +32,7 @@
     repo: 'git@github.com:tmux/tmux.git'
     dest: "{{ nonwork_code_dir }}/tmux"
     version: "{{ tmux_version }}"
+    force: yes
   register: tmux_git_result
 
 - stat:

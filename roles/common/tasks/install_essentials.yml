@@ -9,6 +9,7 @@
       - build-essential
       - git
       - python3
+      - software-properties-common
 
 - name: Install essentials (OS X)
   when: ansible_os_family == "Darwin"
@@ -21,3 +22,4 @@
       - gnu-tar
       - gnu-sed
       - grep
+

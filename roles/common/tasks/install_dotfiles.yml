@@ -2,3 +2,8 @@
 
 - name: Install .ackrc
   template: "src=ackrc.j2 dest={{ ansible_env.HOME}}/.ackrc"
+
+- name: Install .githubrc
+  template:
+    src: gitconfig.j2
+    dest: "{{ ansible_env.HOME}}/.gitconfig"
