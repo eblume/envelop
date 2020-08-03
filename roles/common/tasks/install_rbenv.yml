@@ -4,7 +4,7 @@
   get_url:
     url: "https://github.com/rbenv/rbenv-installer/raw/master/bin/rbenv-installer"
     dest: "{{ nonwork_code_dir }}/rbenv-installer.sh"
-    mode: '0550'
+    mode: '0750'
 
 - name: Run rbenv-installer.sh (update, install, idempotent)
   command: "{{ nonwork_code_dir }}/rbenv-installer.sh"

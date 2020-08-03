@@ -1,35 +1,18 @@
 ---
 
-- name: Make i3 config dir
-  file:
-    path: "{{ ansible_env.HOME }}/.config/i3"
-    state: directory
-
-- name: Install i3 config
-  template:
-    src: i3.config.j2
-    dest: "{{ ansible_env.HOME }}/.config/i3/config"
-
-- name: Install i3exit script
-  template:
-    src: i3exit.sh.j2
-    dest: "{{ user_bin_dir }}/i3exit"
-    mode: "u=rwx,g=,o="
-
-- name: Make i3status config dir
-  file:
-    path: "{{ ansible_env.HOME }}/.config/i3status"
-    state: directory
-
-- name: Install i3status config
-  template:
-    src: i3status.config.j2
-    dest: "{{ ansible_env.HOME }}/.config/i3status/config"
+- name: Add regolith linux (i3 preset for ubuntu/lightgdm login session) PPA
+  become: yes
+  apt_repository:
+    repo: "ppa:regolith-linux/release"
 
 - name: Install i3 and support packages
   become: yes
   apt:
     pkg:
-      - i3
+      - regolith-desktop
       - i3lock
+      - i3xrocks-net-traffic
+      - i3xrocks-cpu-usage
+      - i3xrocks-time
+      - i3xrocks-battery
     state: latest

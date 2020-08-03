@@ -59,17 +59,16 @@
   register: tmuxinator_git_result
 
 - name: Build tmuxinator from gemspec
-  when: tmuxinator_git_result.changed
+  # when: tmuxinator_git_result.changed
   block:
     - name: Build gemfile from gemspec
       shell:
         chdir: "{{ nonwork_code_dir }}/tmuxinator"
-        cmd: "{{ gem_bin }} build tmuxinator.gemspec"
-    - name: Install gem
-      gem:
-        name: "tmuxinator"
-        gem_source: "{{ nonwork_code_dir }}/tmuxinator/tmuxinator-{{ tmuxinator_version }}.gem"
-        state: present
+        cmd: "{{ rbenv_bin }} exec gem build tmuxinator.gemspec"
+    - name: Install tmuxinator gem
+      shell:
+        chdir: "{{ nonwork_code_dir }}/tmuxinator"
+        cmd: "{{ rbenv_bin }} exec gem install tmuxinator-{{ tmuxinator_version}}.gem"
 
 - name: Create tmuxinator config dir
   file: path="{{ ansible_env.HOME }}/.config/tmuxinator" state=directory

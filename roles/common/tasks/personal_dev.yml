@@ -18,3 +18,9 @@
     - ipython
   register: pip_result
   changed_when: pip_result.rc == 0 and 'Successfully installed' in pip_result.stdout_lines[-1]
+
+- name: Install git config
+  template:
+    src: gitconfig.j2
+    dest: "{{ ansible_env.HOME }}/.gitconfig"
+    mode: "u=rw,g=r,o=r"
