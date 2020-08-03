@@ -2,7 +2,8 @@
 
 - include: hacks.yml
 
-- include: install_ansible.yml
+# Disabled for now, todo
+# - include: install_ansible.yml
 
 - include: install_essentials.yml
 - include: code_pen.yml

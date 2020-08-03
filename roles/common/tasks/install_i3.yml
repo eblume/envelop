@@ -1,18 +1,21 @@
 ---
 
-- name: Add regolith linux (i3 preset for ubuntu/lightgdm login session) PPA
-  become: yes
-  apt_repository:
-    repo: "ppa:regolith-linux/release"
+- name: Install i3 Regolith
+  when: inventory_hostname == 'indri'
+  block:
+  - name: Add regolith linux (i3 preset for ubuntu/lightgdm login session) PPA
+    become: yes
+    apt_repository:
+      repo: "ppa:regolith-linux/release"
 
-- name: Install i3 and support packages
-  become: yes
-  apt:
-    pkg:
-      - regolith-desktop
-      - i3lock
-      - i3xrocks-net-traffic
-      - i3xrocks-cpu-usage
-      - i3xrocks-time
-      - i3xrocks-battery
-    state: latest
+  - name: Install i3 and support packages
+    become: yes
+    apt:
+      pkg:
+        - regolith-desktop
+        - i3lock
+        - i3xrocks-net-traffic
+        - i3xrocks-cpu-usage
+        - i3xrocks-time
+        - i3xrocks-battery
+      state: latest
