@@ -35,17 +35,12 @@
     state: directory
     path: "{{ nonwork_code_dir }}/neovim"
 
-- name: Delete pesky nightly tag from neovim repository (sheesh)
-  command: git tag -d nightly
-  args:
-    chdir: "{{ nonwork_code_dir }}/neovim"
-  ignore_errors: yes
-
 - name: Clone or Update neovim repository
   git:
     repo: 'git@github.com:neovim/neovim.git'
     dest: "{{ nonwork_code_dir }}/neovim"
     version: "{{ neovim_version }}"
+    force: true
   register: neovim_git_result
 
 - stat:
