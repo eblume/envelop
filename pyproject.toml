@@ -7,7 +7,7 @@ authors = ["Erich Blume <blume.erich@gmail.com>"]
 [tool.poetry.dependencies]
 python = "^3.7"
 jinja2 = "^2.11.2"
-ansible = "^2.9.11"
+ansible = {version = "^2.10.0a9", allow-prereleases = true}
 pyyaml = "^5.3.1"
 
 [tool.poetry.dev-dependencies]

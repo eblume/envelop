@@ -15,6 +15,7 @@
     - g++
     - pkg-config
     - unzip
+    - fzf   # Not a dep, but needed for vim-fzf
 
 - name: Install neovim dependencies (OS X)
   when: ansible_os_family == "Darwin"
@@ -29,6 +30,7 @@
       - cmake
       - pkg-config
       - unzip
+      - fzf   # Not a dep, but needed for vim-fzf
 
 - name: Create neovim dir
   file:

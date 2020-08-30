@@ -1,9 +1,17 @@
 ---
 
-- include: hacks.yml
+- name: Ensure ansible version >= 2.10.0 (required for git fetch --force bug)
+  fail:
+    msg: >
+      Please run `poetry shell` first to get the proper ansible version. You
+      must have ansible version >= 2.10.0, which is specified in
+      pyproject.toml. It is possible that you may need to disable (uninstall?)
+      the system-provided ansible in order to get this to work. You are
+      currently running {{ ansible_version.full }}
+  when: ansible_version.full is version("2.10.0", "<")
 
-# Disabled for now, todo
-# - include: install_ansible.yml
+
+- include: hacks.yml
 
 - include: install_essentials.yml
 - include: code_pen.yml
