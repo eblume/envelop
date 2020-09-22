@@ -35,6 +35,9 @@ set -x PATH /usr/games $PATH
 # Set up poetry
 set -x PATH ~/.poetry/bin $PATH
 
+# Python, STOP IT!
+set -x PYTHONDONTWRITEBYTECODE "seriously, stop it"
+
 # rbenv stuff
 # (placing just before pyenv)
 set -x PATH ~/.rbenv/bin ~/.rbenv/shims $PATH

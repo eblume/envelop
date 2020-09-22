@@ -322,14 +322,15 @@ let g:airline#extensions#ale#enabled = 1
 " highlight clear ALEWarningSign
 let g:ale_linters = {
 \  'javascript': ['eslint'],
-\  'python': ['flake8', 'black'],
+\  'python': ['flake8', 'black', 'mypy'],
 \}
 let g:ale_fixers = {
 \  '*': ['remove_trailing_lines', 'trim_whitespace'],
 \  'python': [
-\     'black',
 \     'remove_trailing_lines',
-\     'trim_whitespace'
+\     'trim_whitespace',
+\     'isort',
+\     'black'
 \   ],
 \  'javascript': ['prettier_standard', 'remove_trailing_lines', 'trim_whitespace'],
 \}
