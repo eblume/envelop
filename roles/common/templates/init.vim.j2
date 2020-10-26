@@ -121,23 +121,6 @@ set updatetime=100
 set mousehide
 set mousemodel=popup
 
-" Code Folding, everything folded by default
-set foldmethod=indent
-set foldnestmax=0
-set foldenable
-" use space as the code folder
-nnoremap <space> za
-vnoremap <space> zf
-" Note to check out
-" https://stackoverflow.com/questions/357785/what-is-the-recommended-way-to-use-vim-folding-for-python-code
-" in case there's some cool stuff there I missed. Specifically, code folding
-" changing by file type.
-
-" Middle mouse click paste without formatting
-" map <MouseMiddle> <Esc>"*p
-" temp disabled as I transition to linux: who knows what the clipboard story
-" is now
-
 " Disable swapfiles, they don't seem to ever help
 set noswapfile
 
@@ -149,11 +132,9 @@ set undofile
 set backupdir=~/.vim/sessions
 set dir=~/.vim/sessions
 
-
 " CtrlP extension coolness stuff (uhoh)
 let g:ctrlp_extensions = ['tag', 'mixed']
 let g:ctrlp_cmd = 'CtrlPMixed'
-
 
 " Syntax highlight syncing from the top of the file (fixes Python)
 autocmd BufEnter * :syntax sync fromstart
@@ -193,9 +174,6 @@ set ttyfast
 " Global substitution regexes by default
 set gdefault
 
-" Remove trailing whitespace on <leader>S
-nnoremap <leader>S :%s/\s\+$//<cr>:let @/=''<CR>
-
 " Copy/Paste to and from Desktop Environment
 noremap <leader>yy "+y
 noremap <leader>pp "+gP
@@ -228,7 +206,6 @@ set fileformats=unix,dos,mac
 " Keep more lines for scope
 set scrolloff=5
 
-
 " some netrw setup
 let g:netrw_liststyle = 3  " tree view
 let g:netrw_list_hide = '.\(pyc\|pyo\|o\)$' " hide some files and remove stupid help
@@ -238,9 +215,6 @@ let g:netrw_banner = 0
 inoremap <F1> <ESC>
 nnoremap <F1> <ESC>
 vnoremap <F1> <ESC>
-
-" Make ; and : do the same thing
-" nnoremap ; :  " why?!?
 
 " <leader>[v,h] opens a [vertical/horizontal] split window and selects it.
 nnoremap <leader>v <C-w>v<C-w>l
@@ -258,9 +232,6 @@ autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTreeType") && b:NERDTree
 " NERDTree will change the CWD to the current node when changing the tree
 " (ie, the root of the NERDTree will be the CWD at all times)
 let g:NERDTreeChDirMode=2
-
-" Automatically go fmt for golang files
-autocmd FileType go autocmd BufWritePre <buffer> Fmt
 
 " Use NERDTree in place of the default file browser
 let NERDTreeHijackNetrw=1
@@ -300,7 +271,7 @@ au FileType rst setlocal tabstop=4 expandtab shiftwidth=4 softtabstop=4
 au FileType json setlocal tabstop=2 expandtab shiftwidth=2 softtabstop=2
 
 " copy/paste in linux
-set clipboard+=unnamed,unnamedplus
+set clipboard+=unnamedplus
 
 " Airline config (for statusline)
 let g:airline#parts#ffenc#skip_expected_string='utf-8[unix]'  " If it's utf-8 I don't care
@@ -335,7 +306,7 @@ let g:ale_fixers = {
 \  'javascript': ['prettier_standard', 'remove_trailing_lines', 'trim_whitespace'],
 \}
 
-" Ack.vim - use Ag when able
+" Ack.vim - use ripgrep when able
 if executable('rg')
   let g:ackprg = 'rg --vimgrep --no-heading'
 elseif executable('ag')
