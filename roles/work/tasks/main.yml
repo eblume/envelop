@@ -78,3 +78,11 @@
   template:
     src: "vpn.yml.j2"
     dest: "{{ ansible_env.HOME }}/.config/tmuxinator/vpn.yml"
+
+
+# This can probably be done with the 'npm' module, but I'm skeptical of it
+
+- name: Install required global node packages
+  command: "n exec latest npm install -g {{item}}"
+  with_items:
+    - gsts
