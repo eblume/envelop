@@ -11,6 +11,12 @@
       - python3
       - software-properties-common
 
+      # The following are needed for scipi
+      # (https://github.com/scipy/scipy/issues/9005)
+      - gfortran
+      - libopenblas-dev
+      - liblapack-dev
+
 - name: Install essentials (OS X)
   when: ansible_os_family == "Darwin"
   homebrew:
