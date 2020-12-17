@@ -32,9 +32,6 @@ set -x MOZCONFIG $HOME/.mozconfig
 # gaaaaames
 set -x PATH /usr/games $PATH
 
-# Set up poetry
-set -x PATH ~/.poetry/bin $PATH
-
 # Python, STOP IT!
 set -x PYTHONDONTWRITEBYTECODE "seriously, stop it"
 
@@ -49,3 +46,7 @@ set -x PYENV_ROOT "{{ nonwork_code_dir }}/pyenv"
 set -x PATH $PYENV_ROOT/bin $PATH
 status --is-interactive; and source (pyenv init -|psub)
 status --is-interactive; and source (pyenv virtualenv-init -|psub)
+
+# Set up poetry - We actually WANT this after pyenv, because pyenv bundles
+# ansible but we really want poetry to manage ansible
+set -x PATH ~/.poetry/bin $PATH
