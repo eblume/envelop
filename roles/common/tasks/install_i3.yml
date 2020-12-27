@@ -12,7 +12,7 @@
     become: yes
     apt:
       pkg:
-        - regolith-desktop
+        - regolith-desktop-standard
         - i3lock
         - i3xrocks-net-traffic
         - i3xrocks-cpu-usage
