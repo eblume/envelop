@@ -295,6 +295,9 @@ elseif executable('ag')
   let g:ackprg = 'ag --vimgrep'
 endif
 
+" Map :cclose to a <leader>c to close out the quickfix window, as created by Ack
+nnoremap <leader>c :cclose<CR>
+
 " Tagbar on F8
 nmap <F8> :TagbarOpenAutoClose<CR>
 
