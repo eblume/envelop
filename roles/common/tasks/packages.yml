@@ -13,19 +13,6 @@
         - snapd
         - xsel
         - blueman
-        - ripgrep
-
-  - name: Check if slack needs to be installed
-    ignore_errors: yes
-    command: "snap list slack"
-    register: slack_installed
-    changed_when: False
-
-  # Classic confinement = not as good, can get out with sneaky code.
-  - name: Install slack snap with classic confinement
-    become: yes
-    command: "snap install slack --classic"
-    when: slack_installed.rc != 0
 
 - name: Install OS X Packages
   when: ansible_os_family == "Darwin"
@@ -35,4 +22,3 @@
       state: latest
       name:
         - the_silver_searcher
-        - ripgrep

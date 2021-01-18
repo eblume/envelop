@@ -13,7 +13,7 @@
 - name: Install pip packages
   command: "fish -c \"source ({{ nonwork_code_dir }}/pyenv/bin/pyenv init -|psub); and pip install -U {{ item }}\""
   with_items:
-    #  - pip  # causing issues with poetry :(
+    - pip
     - pdbpp
     - ipython
   register: pip_result

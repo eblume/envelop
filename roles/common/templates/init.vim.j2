@@ -44,18 +44,13 @@ Plug 'pearofducks/ansible-vim', { 'do': 'cd ./UltiSnips; ./generate.py' }
 
 " FZF file search
 Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
-
-" Ctrl-P, mostly just for the MRU files, bufs, and tags search. FZF is nicer for files.
-Plug 'kien/ctrlp.vim'
+Plug 'junegunn/fzf.vim'
 
 " Syntax support for 100+ languages
 Plug 'sheerun/vim-polyglot'
 
 " vim-airline
 Plug 'vim-airline/vim-airline'
-
-" Ag (via Ack)
-Plug 'mileszs/ack.vim'
 
 " vim Dim Inactive Windows
 Plug 'blueyed/vim-diminactive'
@@ -73,9 +68,6 @@ Plug 'pangloss/vim-javascript'
 " tmux focus events
 Plug 'tmux-plugins/vim-tmux-focus-events'
 
-" pairs
-" Bundle 'jiangmiao/auto-pairs'
-
 " Asynchronous Linting
 Plug 'w0rp/ale'
 
@@ -91,13 +83,14 @@ Plug 'majutsushi/tagbar'
 " vim-eunuch, linux CLI stuff like :Move, :Rename, etc.
 Plug 'tpope/vim-eunuch'
 
-" QFEnter - make QuickFix smarter when you press enter (pick the last split/window to replace)
-Plug 'yssl/QFEnter'
-
 
 " All of your Plugins must be added before the following line
 call plug#end()
 """"""""""""""" End of plugins stuff
+
+" Disable Python2, it's dead, Jim
+let g:loaded_python_provider = 0
+let g:python_host_prog = ''
 
 " Always try to syntax highlight... I rarely write bare prose.
 syntax on
@@ -175,11 +168,18 @@ set gdefault
 noremap <leader>yy "+y
 noremap <leader>pp "+gP
 
-" FZF search
-nnoremap <leader>s :<C-u>FZF<CR>
-
-" Ack (Ag/ripgrep)
-nnoremap <leader>a :Ack!<Space>
+" FZF search. More can be found here: https://github.com/junegunn/fzf.vim
+nnoremap <leader>f :<C-u>Files<CR>
+nnoremap <leader>t :<C-u>Tags<CR>
+nnoremap <leader>b :<C-u>Buffers<CR>
+nnoremap <leader>l :<C-u>Lines<CR>
+if executable('rg')
+  nnoremap <leader>a :<C-u>Rg<CR>
+elseif executable('ag')
+  nnoremap <leader>a :<C-u>Ag<CR>
+endif
+" Map ctrl-p to :Files, to mimic ctrlp.vim, which is burned in to my brain
+nnoremap <C-p> :<C-u>Files<CR>
 
 " set cmdheight=2
 set laststatus=2
@@ -293,16 +293,6 @@ let g:ale_fixers = {
 \  'javascript': ['prettier_standard', 'remove_trailing_lines', 'trim_whitespace'],
 \}
 
-" Ack.vim - use ripgrep when able
-if executable('rg')
-  let g:ackprg = 'rg --vimgrep --no-heading'
-elseif executable('ag')
-  let g:ackprg = 'ag --vimgrep'
-endif
-
-" Map :cclose to a <leader>c to close out the quickfix window, as created by Ack
-nnoremap <leader>c :cclose<CR>
-
 " Tagbar on F8
 nmap <F8> :TagbarOpenAutoClose<CR>
 
@@ -343,4 +333,3 @@ hi Normal guibg=NONE ctermbg=NONE
 let g:diminactive_use_colorcolumn = 1
 let g:diminactive_use_syntax = 1
 let g:diminactive_enable_focus = 1
-

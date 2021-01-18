@@ -1,21 +1,27 @@
 ---
+
+# TODO: investigate 'delta' which plugs in to FZF and bat to give nice diff views
+# https://github.com/dandavison/delta
+
+
 - name: Install neovim dependencies (Debian)
   when: ansible_os_family == "Debian"
   apt: name="{{ packages }}" state=latest
   become: yes
   vars:
     packages:
-    - ninja-build
-    - gettext
-    - libtool
-    - libtool-bin
-    - autoconf
-    - automake
-    - cmake
-    - g++
-    - pkg-config
-    - unzip
-    - fzf   # Not a dep, but needed for vim-fzf
+      - ninja-build
+      - gettext
+      - libtool
+      - libtool-bin
+      - autoconf
+      - automake
+      - cmake
+      - g++
+      - pkg-config
+      - unzip
+      # The following packages aren't dependencies of neovim itself, but of plugins
+      - fzf
 
 - name: Install neovim dependencies (OS X)
   when: ansible_os_family == "Darwin"
@@ -30,7 +36,28 @@
       - cmake
       - pkg-config
       - unzip
-      - fzf   # Not a dep, but needed for vim-fzf
+      # The following packages aren't dependencies of neovim itself, but of plugins
+      - fzf
+      - bat
+      - ripgrep
+
+
+# Details: https://github.com/sharkdp/bat/issues/938
+# (short version: ubuntu 20.04 has a bug with rust packages. Fixed in 20.10.)
+- name: Install ripgrep and bat (Debian) with a special command to fix some BS
+  when: ansible_os_family == "Debian"
+  become: yes
+  apt:
+    name: "{{ packages }}"
+    state: latest
+    # force-confdef and force-confold are the default values.
+    # force-overwrite fixes the issue with rust packages (for now).
+    dpkg_options: force-confdef,force-confold,force-overwrite
+  vars:
+    packages:
+      - ripgrep  # fast dev-grepping for fzf and ack
+      - bat      # cat, but cooler. Provides colors and such for fzf.
+
 
 - name: Create neovim dir
   file:
@@ -68,3 +95,13 @@
 # was that you can inspect the output of the PlugDiff command to see what was changed.
 # I decided to give up before I figured out how to parse that out properly from the
 # curses-style output.
+
+- name: Install neovim package for python
+  # TODO: I need to convert my pyenv setup in to an ansible package or something because this is nuts
+  command: "fish -c \"source ({{ nonwork_code_dir }}/pyenv/bin/pyenv init -|psub); and pip install -U {{ item }}\""
+  with_items:
+    - neovim
+  register: pip_result
+  changed_when: pip_result.rc == 0 and 'Successfully installed' in pip_result.stdout_lines[-1]
+
+# There are also Ruby and Javascript providers we could do here
