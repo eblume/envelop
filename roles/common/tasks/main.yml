@@ -24,10 +24,12 @@
 - include: install_tmux.yml
 - include: install_dotfiles.yml
 - include: install_ctags.yml
+- include: install_weechat.yml
 
 # Tiling window managed (with OS X fallback)
 - include: install_i3.yml
   when: ansible_os_family == "Debian"
+
 - name: Install amethyst (OS X only)
   when: ansible_os_family == "Darwin"
   homebrew_cask: name="amethyst" state=upgraded

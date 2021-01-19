@@ -5,6 +5,7 @@ tmuxinator_version: '2.0.1'  # as of 10-May-2020  - prefix of 'v' is applied in 
 fisher_version: '3.2.9'
 pyenv_version: 'v1.2.21'  # latest release as of 12-16-2020
 n_version: 'v6.7.0'  # released 25-July-2020
+weechat_version: 'v3.0'  # released 11-Nov-2020
 pyenv_virtualenv_version: 'v1.1.5'  # Released Feb 13 2019. Watch for stagnancy.
 pyenv_global_version: '3.8.2'
 rbenv_global_version: '2.7.1'

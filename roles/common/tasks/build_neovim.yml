@@ -1,4 +1,5 @@
 ---
+# TODO: Let's actually build nvim on os x please
 - name: Just friggin install neovim already dammit ( OS X )
   when: ansible_os_family == "Darwin"
   block:

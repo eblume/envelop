@@ -1,0 +1,120 @@
+---
+
+- name: Install weechat and weechat-slack
+  block:
+  - name: Install weechat and weechat-slack for Debian
+    when: ansible_os_family == "Debian"
+    block:
+
+    - name: Install weechat apt packages (Debian)
+      become: yes
+      apt:
+        state: latest
+        pkg:
+          - weechat
+          - weechat-python
+          - python3-websocket
+
+    - name: Create the weechat python autoload dir
+      file:
+        state: directory
+        dest: "{{ ansible_env.HOME }}/.weechat/python/autoload"
+
+    - name: Install the wee-slack plugin
+      get_url:
+        url: https://raw.githubusercontent.com/wee-slack/wee-slack/master/wee_slack.py
+        dest: "{{ ansible_env.HOME }}/.weechat/python/wee_slack.py"
+
+    - name: Have wee-slack autoload when weechat starts
+      file:
+        state: link
+        src: "{{ ansible_env.HOME }}/.weechat/python/wee_slack.py"
+        dest: "{{ ansible_env.HOME }}/.weechat/python/autoload/wee_slack.py"
+
+
+# TODO: Support OS X -at all-. Note: you'll need to figure out a weird thing with
+# wee-slack requiring weechat's python3 instance specifically to have the `websocket`
+# package.
+
+
+# TODO: Actually build weechat. I ran in to issues with cmake not finding python, which
+# is needed for weechat-slack. Every other language had an install flag to point at a
+# python binary, but not python :(
+
+#- name: Install weechat dependencies (Debian)
+#  when: ansible_os_family == "Debian"
+#  become: yes
+#  apt:
+#    state: latest
+#    pkg:
+#      # Some of these are probably not needed
+#      - cmake
+#      - ncurses-dev
+#      - libncurses-dev  # unclear if both are needed
+#      - libcurl4
+#      - zlibc
+#      - libgcrypt20
+#      - libgcrypt20-dev  # unclear if both are needed
+#      - gettext
+#      - gnutls-bin
+#      - libgnutls28-dev
+#      - libcurl4-gnutls-dev
+#      - ca-certificates
+#      - enchant-2
+#      - libenchant-2-dev
+#      - asciidoctor
+#      - cpputest
+#      - aspell
+#
+#- name: Install weechat cask dependencies (OS X)
+#  when: ansible_os_family == "Darwin"
+#  homebrew_cask: state=upgraded name="{{ item }}"
+#  with_items:
+#    - cmake
+#
+#- name: Install weechat non-cask dependencies (OS X)
+#  when: ansible_os_family == "Darwin"
+#  homebrew:
+#    state: latest
+#    name:
+#      # Take all of these with a grain of salt, I'm not testing them right now.
+#      - ncurses
+#      - curl
+#      - zlib
+#      - openssl  # I think this gives libgcrypt... just a guess though
+#      - gettext
+#      - gnutls
+#      - aspell
+#      - enchant
+#      - asciidoctor
+#      - cpputest
+#
+#- name: Check out weechat
+#  git:
+#    repo: git@github.com:weechat/weechat.git
+#    dest: "{{ nonwork_code_dir }}/weechat"
+#    version: "{{ weechat_version }}"
+#  register: weechat_git
+#
+#- name: Build weechat
+#  block:
+#  - name: remove the build directory
+#    file: path="{{ nonwork_code_dir}}/weechat/build" state=absent
+#
+#  - name: make the build directory
+#    file: path="{{ nonwork_code_dir}}/weechat/build" state=directory
+#
+#  - name: build weechat
+#    args:
+#      chdir: "{{ nonwork_code_dir}}/weechat/build"
+#      command: >
+#        cmake ..
+#        -DCMAKE_INSTALL_PREFIX={{ user_bin_dir}}
+#        -DCMAKE_BUILD_TYPE=Debug
+#        -DENABLE_LUA=OFF
+#        -DENABLE_PHP=OFF
+#        -DENABLE_PYTHON=ON
+#        -DENABLE_GUILE=OFF
+#        -DENABLE_PERL=OFF
+#        -DENABLE_PYTHON2=OFF
+#        -a
