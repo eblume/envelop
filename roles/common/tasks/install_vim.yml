@@ -105,3 +105,9 @@
   changed_when: pip_result.rc == 0 and 'Successfully installed' in pip_result.stdout_lines[-1]
 
 # There are also Ruby and Javascript providers we could do here
+
+- name: Create link to nvim called 'vim'
+  file:
+    src: "{{ user_bin_dir }}/nvim"
+    dest: "{{ user_bin_dir }}/vim"
+    state: link
