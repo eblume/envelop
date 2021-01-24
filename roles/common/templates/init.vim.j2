@@ -181,6 +181,20 @@ endif
 " Map ctrl-p to :Files, to mimic ctrlp.vim, which is burned in to my brain
 nnoremap <C-p> :<C-u>Files<CR>
 
+" Search for the cword the cursor is on. Like gD or <C-w>} - but nicer
+" thanks to https://github.com/junegunn/fzf.vim/issues/50#issuecomment-671140649
+function! FzfTagsCurrentWord()
+  let l:word = expand('<cword>')
+  let l:list = taglist(l:word)
+  if len(l:list) == 1
+    execute ':tag ' . l:word
+  else
+    call fzf#vim#tags(l:word)
+  endif
+endfunction
+
+noremap <leader>] :call FzfTagsCurrentWord()<cr>
+
 " set cmdheight=2
 set laststatus=2
 set showcmd
