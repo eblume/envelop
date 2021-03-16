@@ -1,5 +1,6 @@
 ---
 
+
 # TODO: investigate 'delta' which plugs in to FZF and bat to give nice diff views
 # https://github.com/dandavison/delta
 
@@ -78,16 +79,21 @@
 
 - name: (Re)build neovim
   include: build_neovim.yml
-  when: (neovim_git_result.after != neovim_git_result.before) or
-        (not neovim_bin.stat.exists)
+# Let's just build it every time. Leaving this in in case I decide to go back.
+#  when: (neovim_git_result.after != neovim_git_result.before) or
+#        (not neovim_bin.stat.exists)
 
-# We also do this as a step in build_neovim.yml, but there are times where we
-# don't want to build neovim and yet still want this step.
+
+# We also do these steps in build_neovim.yml, but there are times where we
+# don't want to build neovim and yet still want this step. (Also that's broken right now)
+- name: Create neovim config directory
+  file: path="{{ ansible_env.HOME }}/.config/nvim" state=directory
 - name: Save neovim config
   template:
     src: init.vim.j2
     dest: "{{ ansible_env.HOME }}/.config/nvim/init.vim"
     mode: "u=rw,g=,o="
+
 
 - name: Install/Update neovim plugins
   command: "{{ user_bin_dir}}/nvim -c PlugUpdate -c quitall"
@@ -96,13 +102,14 @@
 # I decided to give up before I figured out how to parse that out properly from the
 # curses-style output.
 
+
 - name: Install neovim package for python
-  # TODO: I need to convert my pyenv setup in to an ansible package or something because this is nuts
-  command: "fish -c \"source ({{ nonwork_code_dir }}/pyenv/bin/pyenv init -|psub); and pip install -U {{ item }}\""
+  command: "pip install -U {{ item }}"
   with_items:
     - neovim
   register: pip_result
   changed_when: pip_result.rc == 0 and 'Successfully installed' in pip_result.stdout_lines[-1]
+
 
 # There are also Ruby and Javascript providers we could do here
 

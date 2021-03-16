@@ -1,0 +1,88 @@
+# {{ ansible_managed }}
+
+### PATH stuff
+
+export PATH="~/.npm-global/bin:$N_PREFIX/bin:{{ user_bin_dir}}:$PATH"
+#  export PATH="/usr/local/lib/ruby/gems/2.6.0/gems/tmuxinator-1.1.1/bin:$PATH"  # TODO - review this, I think its broken
+export EDITOR="nvim"
+
+
+### Misc Env Stuff
+
+# Python, STOP IT!
+export PYTHONDONTWRITEBYTECODE="seriously, stop it"
+
+
+### Load Z shell fuzzy finder. Note: this is NOT "zsh", despite the name.
+. {{ nonwork_code_dir }}/z_file_finder/z.sh
+
+
+### Helper Functions
+
+function awsprofile() {
+    local profile="$1"
+    if grep "\[profile $profile\]" ~/.aws/config > /dev/null; then
+        export AWS_PROFILE="$profile"
+        if ! aws sts get-caller-identity 2>/dev/null >/dev/null; then
+            aws sso login --profile "$profile"
+        fi
+    else
+        unset AWS_PROFILE
+        if [ ! "$profile" == "unset" ]; then
+            echo >&2 "No AWS profile with name $profile. Unsetting for safety."
+	    echo >&2 "(prod or staging, probably)"
+            return 1
+        fi
+    fi
+}
+
+alias awsp="awsprofile"
+
+function kubecontext() {
+    local profile="$1"
+    if kubectl config get-contexts -o name | grep "^$profile$" > /dev/null; then
+        kubectl config use-context "$profile" > /dev/null
+    else
+        kubectl config unset current-context > /dev/null
+        if [ ! "$profile" == "unset" ] && [ ! "$profile" == "eks-unset" ]; then
+            echo >&2 "No Kubernetes context with name $profile. Unsetting for safety"
+            return 1
+        fi
+    fi
+}
+
+alias kubep=kubecontext
+
+function usecloud() {
+    local profile="$1"
+    awsprofile "$profile"
+    kubecontext "eks-$profile"
+}
+
+test -e "${HOME}/.iterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell_integration.zsh"
+
+
+### iterm2 shell integration
+source ~/.iterm2_shell_integration.zsh
+
+
+### sqlite via homebrew
+export PATH="/opt/homebrew/opt/sqlite/bin:$PATH"
+# The following may also be useful
+# export LDFLAGS="-L/opt/homebrew/opt/sqlite/lib"
+# export CPPFLAGS="-I/opt/homebrew/opt/sqlite/include"
+# export PKG_CONFIG_PATH="/opt/homebrew/opt/sqlite/lib/pkgconfig"
+
+
+### Pyenv
+eval "$(pyenv init -)"
+eval "$(pyenv virtualenv-init -)"
+
+### rbenv
+export RUBY_CONFIGURE_OPTS="--with-openssl-dir=$(brew --prefix openssl@1.1)"
+
+### n (node)
+export N_PREFIX="$HOME/n"; [[ :$PATH: == *":$N_PREFIX/bin:"* ]] || PATH+=":$N_PREFIX/bin"
+
+### Poetry
+export PATH="~/.poetry/bin:$PATH"

@@ -8,7 +8,7 @@
       - libxml2
 
 - name: Install docutils (needed for ctags)
-  command: "fish -c \"source ({{ nonwork_code_dir }}/pyenv/bin/pyenv init -|psub); and pip install -U docutils\""
+  command: "pip install -U docutils"
   register: docutils_result
   changed_when: "'Requirement already up-to-date' not in docutils_result.stdout"
 

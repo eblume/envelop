@@ -3,20 +3,22 @@
 - name: Ensure ansible version >= 2.10.0 (required for git fetch --force bug)
   fail:
     msg: >
-      Please run `poetry shell` first to get the proper ansible version. You
-      must have ansible version >= 2.10.0, which is specified in
-      pyproject.toml. It is possible that you may need to disable (uninstall?)
-      the system-provided ansible in order to get this to work. You are
-      currently running {{ ansible_version.full }}
+      You must install ansible >= 2.10.0.
+      You are currently running {{ ansible_version.full }}
   when: ansible_version.full is version("2.10.0", "<")
+
+
+# Can't figure out where else to put this, so let's put it here
+- name: Install zshrc
+  template:
+    dest: "{{ ansible_env.HOME }}/.zshrc"
+    src: zshrc.j2
 
 
 - include: hacks.yml
 
 - include: install_essentials.yml
 - include: code_pen.yml
-#- include: install_firefox.yml
-- include: install_fish.yml
 - include: install_pyenv.yml
 - include: install_rbenv.yml
 - include: install_node.yml
@@ -24,20 +26,10 @@
 - include: install_tmux.yml
 - include: install_dotfiles.yml
 - include: install_ctags.yml
-- include: install_weechat.yml
 
 # Tiling window managed (with OS X fallback)
 - include: install_i3.yml
   when: ansible_os_family == "Debian"
-
-- name: Install amethyst (OS X only)
-  when: ansible_os_family == "Darwin"
-  homebrew_cask: name="amethyst" state=upgraded
-  register: amethyst_install
-- debug:
-    msg: "Amethyst requires accessibility options permissions, you must do this manually"
-  when: amethyst_install.changed
-
 
 - include: personal_dev.yml
 

@@ -1,6 +1,0 @@
-# {{ ansible_managed }}
-# vi:syntax=fish
-
-function unlock --description "Unlock the security keychain 'unlock <password>'"
-        security unlock-keychain -p $argv $HOME/Library/Keychains/login.keychain-db
-end

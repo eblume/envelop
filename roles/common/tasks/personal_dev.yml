@@ -8,10 +8,9 @@
   with_items:
     - hermes
     - envelop
-    - hermesweb
 
 - name: Install pip packages
-  command: "fish -c \"source ({{ nonwork_code_dir }}/pyenv/bin/pyenv init -|psub); and pip install -U {{ item }}\""
+  command: "pip install -U {{ item }}"
   with_items:
     - pip
     - pdbpp

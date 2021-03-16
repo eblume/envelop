@@ -1,89 +1,39 @@
 ---
 
-- name: Check out the pyenv code
-  git:
-    repo: git@github.com:pyenv/pyenv.git
-    dest: "{{ nonwork_code_dir }}/pyenv"
-    version: "{{ pyenv_version }}"
-  register: pyenv_git
-
-- name: Check out pyenv-virtualenv
-  git:
-    repo: git@github.com:pyenv/pyenv-virtualenv.git
-    dest: "{{ nonwork_code_dir }}/pyenv/plugins/pyenv-virtualenv"
-
-- name: "Gather info on installed versions of python"
-  command: "{{ nonwork_code_dir }}/pyenv/bin/pyenv versions"
-  changed_when: false
-  register: pyenv_versions_check
-
-- name: "Install required packages (Debian)"
-  when: ansible_os_family == "Debian"
-  become: yes
-  vars:
-    packages:
-      - libreadline-dev
-      - libncurses5-dev
-      - libncursesw5-dev
-      - openssl
-      - libssl-dev
-      - libbz2-dev
-      - sqlite3  # not needed, but... it's awesome
-      - libsqlite3-dev
-      - libgdbm-dev
-      - libc6-dev
-      - zlib1g-dev
-      - tk-dev
-      - libffi-dev
-  apt:
-    name: "{{ packages }}"
-    state: latest
-
-- name: "Install required packages (OS X)"
+- name: Install pyenv and pyenv-virtualenv (OS X)
   when: ansible_os_family == "Darwin"
   vars:
     packages:
-      - readline
-      - ncurses
-      - openssl
-      - bzip2
-      - sqlite
-      - gdbm
-      - zlib
-      - tcl-tk
-      - libffi
+      - pyenv
+      - pyenv-virtualenv
   homebrew:
     name: "{{ packages }}"
     state: latest
 
-- name: Set pyenv preamble fact
-  # NOTE: it's clumsy but you need to end with \" to close it out.
-  set_fact:
-    pyenv_pre: "fish -c \"source ({{ nonwork_code_dir }}/pyenv/bin/pyenv init -|psub); and "
-    pyenv_post: "\""
+- name: "Gather info on installed versions of python"
+  command: pyenv versions
+  changed_when: false
+  register: pyenv_versions_check
 
 - name: Install python versions in to pyenv
   when: not pyenv_versions_check.stdout or item not in pyenv_versions_check.stdout
-  command: "{{ pyenv_pre }} {{ nonwork_code_dir }}/pyenv/bin/pyenv install {{ item }}{{ pyenv_post }}"
+  command: "pyenv install {{ item }}"
   environment:
     PYTHON_CONFIGURE_OPTS: "--enable-shared"
   with_items:
-    - "2.7.15"
-    - "3.7.5"
-    - "3.8.2"
-    - "3.9.0"
+    - "3.9.1"
 
 - name: Check which version of pyenv is global
-  command: "{{ nonwork_code_dir }}/pyenv/bin/pyenv global"
+  command: pyenv global
   register: pyenv_global_check
   changed_when: false
 
 - name: Install the global python version
   when:
     - pyenv_global_check.stdout != pyenv_global_version
-  command: "{{ pyenv_pre}}{{ nonwork_code_dir }}/pyenv/bin/pyenv install {{ pyenv_global_version }}{{ pyenv_post }}"
+  command: "pyenv install {{ pyenv_global_version }}"
   register: pyenv_global_install
-  ignore_errors: yes
+  ignore_errors: yes  # We'll catch errors in the next step
 
 - name: pyenv global version install failure reason check (in case its just already installed)
   fail:
@@ -95,12 +45,9 @@
 - name: Set the global python version
   when:
     - pyenv_global_check.stdout != pyenv_global_version
-  command: "{{ pyenv_pre }}{{ nonwork_code_dir }}/pyenv/bin/pyenv global {{ pyenv_global_version }}{{ pyenv_post }}"
+  command: "pyenv global {{ pyenv_global_version }}"
 
 # Let's also install poetry here - it isn't pyenv, but it'll be useful a lot.
-
-- name: Ensure fish completions folder exists
-  file: path="{{ ansible_env.HOME }}/.config/fish/completions" state=directory recurse=yes
 
 - name: Download the poetry installer
   get_url:
@@ -109,10 +56,6 @@
     mode: 0660
 
 - name: Install/Update poetry
-  command: "{{ pyenv_pre }} python {{ nonwork_code_dir }}/get-poetry.py -y {{ pyenv_post }}"
+  command: "python {{ nonwork_code_dir }}/get-poetry.py -y"
   register: poetry_update
   changed_when: "'Latest version already installed' not in poetry_update.stdout"
-
-- name: Set poetry completions
-  command: "fish -c \"{{ ansible_env.HOME}}/.poetry/bin/poetry completions fish > {{ ansible_env.HOME}}/.config/fish/completions/poetry.fish\""
-  when: poetry_update.changed

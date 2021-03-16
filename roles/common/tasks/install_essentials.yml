@@ -16,7 +16,6 @@
       - gfortran
       - libopenblas-dev
       - liblapack-dev
-
 - name: Install essentials (OS X)
   when: ansible_os_family == "Darwin"
   homebrew:
@@ -28,4 +27,10 @@
       - gnu-tar
       - gnu-sed
       - grep
+      - ripgrep
+
+- name: Check out Z (shell frecency file finder)
+  git:
+    repo: 'git@github.com:rupa/z'
+    dest: "{{ nonwork_code_dir }}/z_file_finder"
 

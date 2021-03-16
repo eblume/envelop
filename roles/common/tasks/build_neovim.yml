@@ -1,21 +1,5 @@
 ---
-# TODO: Let's actually build nvim on os x please
-- name: Just friggin install neovim already dammit ( OS X )
-  when: ansible_os_family == "Darwin"
-  block:
-    - name: Just friggin install it please, homebrew
-      homebrew:
-        name: neovim
-        state: latest
-
-    - name: Link neovim to my personal bin
-      file:
-        src: /usr/local/Cellar/neovim/0.4.3/bin/nvim
-        dest: /Users/erich/bin/nvim
-        state: link
-
-- name: Build neovim ( Debian )
-  when: ansible_os_family == "Debian"
+- name: Build neovim
   block:
     - name: Remove neovim build folder
       file: path="{{ nonwork_code_dir}}/neovim/build" state=absent
@@ -26,7 +10,7 @@
         chdir: "{{ nonwork_code_dir }}/neovim"
 
     - name: Build neovim (this may take a bit)
-      command: "make -j 4 CMAKE_EXTRA_FLAGS='-DCMAKE_INSTALL_PREFIX={{ user_bin_dir }}/../' CMAKE_BUILD_TYPE=RelWithDebInfo"
+      command: "make -j 4 CMAKE_EXTRA_FLAGS='-DCMAKE_INSTALL_PREFIX={{ user_bin_dir }}/../'"
       args:
         chdir: "{{ nonwork_code_dir }}/neovim"
         creates: "{{ nonwork_code_dir }}/neovim/build"

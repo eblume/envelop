@@ -1,13 +1,12 @@
 ---
-neovim_version: 'v0.4.3'  # as of 10-May-2020. 0.5 is in 'nightly', it's unclear when it will come out
+neovim_version: 'b0599d270841b0fe721b6a1b081763f8cc291a73'  # as of 15-March-2021. Needed to fix issue with arm64 builds.
+# TODO - let's fix the above neovim git tag issue ^^
 tmux_version: '3.1b'  # as of 10-May-2020
 tmuxinator_version: '2.0.1'  # as of 10-May-2020  - prefix of 'v' is applied in build templ.
 fisher_version: '3.2.9'
-pyenv_version: 'v1.2.21'  # latest release as of 12-16-2020
 n_version: 'v6.7.0'  # released 25-July-2020
 weechat_version: 'v3.0'  # released 11-Nov-2020
-pyenv_virtualenv_version: 'v1.1.5'  # Released Feb 13 2019. Watch for stagnancy.
-pyenv_global_version: '3.8.2'
+pyenv_global_version: '3.9.1'
 rbenv_global_version: '2.7.1'
 
 ansible_check_mode: false  # No idea wtf is going on with this
@@ -16,7 +15,3 @@ code_pen_dir: "{{ ansible_env.HOME }}/code"
 work_code_dir: "{{ code_pen_dir }}/work"
 nonwork_code_dir: "{{ code_pen_dir }}/personal"
 user_bin_dir: "{{ ansible_env.HOME }}/bin"
-fish_bin: /usr/bin/fish
-fish_bin_osx: /usr/local/bin/fish   # TODO - rearchitect to use one variable
-rbenv_bin_dir: "{{ ansible_env.HOME }}/.rbenv/bin"
-rbenv_bin: "{{ rbenv_bin_dir }}/rbenv"

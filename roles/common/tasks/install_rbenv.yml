@@ -1,20 +1,47 @@
 ---
 
-- name: Download rbenv-installer.sh
-  get_url:
-    url: "https://github.com/rbenv/rbenv-installer/raw/master/bin/rbenv-installer"
-    dest: "{{ nonwork_code_dir }}/rbenv-installer.sh"
-    mode: '0750'
+- name: Install rbenv (Debian)
+  when: ansible_os_family == "Debian"
+  become: yes
+  apt:
+    name: rbenv
+    state: latest
 
-- name: Run rbenv-installer.sh (update, install, idempotent)
-  command: "{{ nonwork_code_dir }}/rbenv-installer.sh"
+- name: Install rbenv (OS X)
+  when: ansible_os_family == "Darwin"
+  homebrew:
+    name: rbenv
+    state: latest
 
-- name: Install Ruby versions
-  command: "{{ rbenv_bin }} install {{ item }}"
+- name: Sniff installed ruby versions
+  command: rbenv versions
+  register: rbenv_installed_result
+
+- name: Install Ruby versions (Debian)
+  when:
+    - ansible_os_family == "Debian"
+    - item not in rbenv_installed_result.stdout
+  command: "rbenv install {{ item }}"
   with_items:
     - 2.7.1
   register: rbenv_result
   failed_when: "'already exists' not in rbenv_result.stderr"
 
+- name: Install Ruby versions (OS X)
+  when:
+    - ansible_os_family == "Darwin"
+    - item not in rbenv_installed_result.stdout
+  command: "rbenv install {{ item }}"
+  with_items:
+    - 2.7.1
+  register: rbenv_result
+  failed_when: "'already exists' not in rbenv_result.stderr"
+  # See https://github.com/rbenv/ruby-build/issues/1699
+  environment:
+    optflags: "-Wno-error=implicit-function-declaration"
+    LDFLAGS: "-L/opt/homebrew/opt/libffi/lib"
+    CPPFLAGS: "-I/opt/homebrew/opt/libffi/include"
+    PKG_CONFIG_PATH: "/opt/homebrew/opt/libffi/lib/pkgconfig"
+
 - name: Set global ruby version
-  command: "{{ rbenv_bin }} global {{ rbenv_global_version }}"
+  command: "rbenv global {{ rbenv_global_version }}"
