@@ -7,7 +7,7 @@
 - block:
     - name: Install fish shell (OS X)
       when: ansible_os_family == "Darwin"
-      homebrew: name=fish state=latest
+      homebrew: name=fish state=latest path=/opt/homebrew/bin
 
     - name: Checking /etc/shells
       shell: "grep '^{{ fish_bin_osx }}$' /etc/shells"

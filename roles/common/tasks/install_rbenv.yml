@@ -10,6 +10,7 @@
 - name: Install rbenv (OS X)
   when: ansible_os_family == "Darwin"
   homebrew:
+    path: /opt/homebrew/bin
     name: rbenv
     state: latest
 

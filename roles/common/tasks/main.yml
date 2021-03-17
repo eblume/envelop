@@ -26,6 +26,7 @@
 - include: install_tmux.yml
 - include: install_dotfiles.yml
 - include: install_ctags.yml
+- include: install_starship.yml
 
 # Tiling window managed (with OS X fallback)
 - include: install_i3.yml

@@ -18,6 +18,7 @@
 - name: Install tmux dependencies (OS X)
   when: ansible_os_family == "Darwin"
   homebrew:
+    path: /opt/homebrew/bin
     state: latest
     name:
       - ruby

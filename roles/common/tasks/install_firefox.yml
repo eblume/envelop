@@ -3,7 +3,7 @@
 
 - name: Install firefox (OS X)
   when: ansible_os_family == "Darwin"
-  homebrew: name="firefox" state=latest
+  homebrew: name="firefox" state=latest path=/opt/homebrew/bin
 
 - name: Install firefox (Linux)
   when: ansible_os_family == "Debian"

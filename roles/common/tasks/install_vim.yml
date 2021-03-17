@@ -26,7 +26,7 @@
 
 - name: Install neovim dependencies (OS X)
   when: ansible_os_family == "Darwin"
-  homebrew: name="{{ packages }}" state=latest
+  homebrew: name="{{ packages }}" state=latest path=/opt/homebrew/bin
   vars:
     packages:
       - ninja

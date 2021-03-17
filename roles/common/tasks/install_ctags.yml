@@ -2,7 +2,7 @@
 
 - name: Install neovim dependencies (OS X)
   when: ansible_os_family == "Darwin"
-  homebrew: name="{{ packages }}" state=latest
+  homebrew: name="{{ packages }}" state=latest path=/opt/homebrew/bin
   vars:
     packages:
       - libxml2
@@ -14,7 +14,7 @@
 
 - name: Install libxml (OS X)
   when: ansible_os_family == "Darwin"
-  homebrew: name="libxml2" state="latest"
+  homebrew: name="libxml2" state="latest" path=/opt/homebrew/bin
   # See also: https://github.com/mitmproxy/mitmproxy/issues/68#issuecomment-427751589
 
 - name: Checkout universal-ctags

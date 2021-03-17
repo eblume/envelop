@@ -19,6 +19,7 @@
   block:
   - name: Install user packages
     homebrew:
+      path: /opt/homebrew/bin
       state: latest
       name:
         - the_silver_searcher

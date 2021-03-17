@@ -1,21 +1,24 @@
 # {{ ansible_managed }}
 
-### PATH stuff
+### ARCH-specific setup
+if [[ $(arch) == 'arm64' ]]; then
+  export PATH="$HOME/bin:/opt/homebrew/bin:/opt/homebrew/sbin:$PATH"
+  export SHELL_ARCH="arm64"
+  echo '=========== arm64 ============'
+else
+  export PATH="$HOME/bin:/usr/local/bin:/usr/local/sbin:$PATH"
+  export SHELL_ARCH="x86"
+  echo '============ x86 ============='
+fi
 
-export PATH="~/.npm-global/bin:$N_PREFIX/bin:{{ user_bin_dir}}:$PATH"
-#  export PATH="/usr/local/lib/ruby/gems/2.6.0/gems/tmuxinator-1.1.1/bin:$PATH"  # TODO - review this, I think its broken
+
+### Misc
+
 export EDITOR="nvim"
-
-
-### Misc Env Stuff
-
-# Python, STOP IT!
 export PYTHONDONTWRITEBYTECODE="seriously, stop it"
 
-
-### Load Z shell fuzzy finder. Note: this is NOT "zsh", despite the name.
+# Load Z shell fuzzy finder. Note: this is NOT "zsh", despite the name.
 . {{ nonwork_code_dir }}/z_file_finder/z.sh
-
 
 ### Helper Functions
 
@@ -66,6 +69,9 @@ test -e "${HOME}/.iterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell
 source ~/.iterm2_shell_integration.zsh
 
 
+### Load Starship (PS1 stuff)
+eval "$(starship init zsh)"
+
 ### sqlite via homebrew
 export PATH="/opt/homebrew/opt/sqlite/bin:$PATH"
 # The following may also be useful
@@ -83,6 +89,8 @@ export RUBY_CONFIGURE_OPTS="--with-openssl-dir=$(brew --prefix openssl@1.1)"
 
 ### n (node)
 export N_PREFIX="$HOME/n"; [[ :$PATH: == *":$N_PREFIX/bin:"* ]] || PATH+=":$N_PREFIX/bin"
+export PATH="$N_PREFIX/bin:$PATH"
+export PATH="{{ ansible_env.HOME }}/.npm-global/bin:{{ user_bin_dir}}:$PATH"
 
 ### Poetry
-export PATH="~/.poetry/bin:$PATH"
+export PATH="{{ansible_env.HOME}}/.poetry/bin:$PATH"

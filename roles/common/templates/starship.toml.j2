@@ -1,0 +1,64 @@
+# {{ ansible_managed }}
+format = """
+$python\
+$aws\
+$kubernetes\
+$env_var\
+$git_branch$git_commit$git_state$git_status\
+$directory\
+$line_break\
+$status$character
+"""
+
+[aws]
+format = "[\\[$symbol$profile\\]]($style)"
+style = "bold blue"
+
+[aws.region_aliases]
+us-east-1 = ""
+
+[directory]
+format = ":: ([ $read_only]($read_only_style) )[$path]($style)"
+truncation_length = 4
+truncate_to_repo = true
+fish_style_pwd_dir_length = 2
+
+[directory.substitutions]
+"Project-Vitamin" = "PV"
+
+[git_branch]
+format = "( :: [$symbol$branch]($style))"
+only_attached = false
+
+[git_commit]
+only_detached = true
+tag_disabled = false
+
+[git_state]
+
+[git_status]
+format = "([ \\[$all_status$ahead_behind\\]]($style) )"
+
+[kubernetes]
+format = "([\\[$symbol$context\\]]($style))"
+style = "blue bold"
+symbol = "❄ "
+disabled = false
+
+[kubernetes.context_aliases]
+"eks-staging" = "staging"
+"eks-prod" = "prod"
+"default" = "default"
+
+[python]
+detect_extensions = []
+format = "[\\[${symbol}${version}\\]]($style)"
+pyenv_version_name = true
+
+[status]
+disabled = false
+
+[env_var]
+variable = "SHELL_ARCH"
+style = "bold yellow"
+format = " [$env_value]($style) "

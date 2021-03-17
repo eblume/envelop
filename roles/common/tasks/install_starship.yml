@@ -1,0 +1,22 @@
+---
+
+- name: Install starship, the PS1 configurator (OS X)
+  when: ansible_os_family == "Darwin"
+  homebrew:
+    path: /opt/homebrew/bin
+    name: starship
+    state: latest
+
+- name: Install starship, the PS1 configurator (Debian)
+  when: ansible_os_family == "Debian"
+  become: yes
+  apt:
+    name: starship
+    state: latest
+
+- name: Install starship config
+  template:
+    dest: "{{ ansible_env.HOME }}/.config/starship.toml"
+    src: starship.toml.j2
+
+
