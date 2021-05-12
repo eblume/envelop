@@ -3,12 +3,12 @@ all:
   children:
     development:
       hosts:
-        ringtail:
+        ringtail.local:
         indri:
     gaming:
       hosts:
-        ringtail:
+        ringtail.local:
     workmachines:
       hosts:
-        ringtail:
+        ringtail.local:
         indri:
