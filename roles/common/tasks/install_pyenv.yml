@@ -22,7 +22,7 @@
   environment:
     PYTHON_CONFIGURE_OPTS: "--enable-shared"
   with_items:
-    - "3.9.1"
+    - "3.9.4"
 
 - name: Check which version of pyenv is global
   command: pyenv global

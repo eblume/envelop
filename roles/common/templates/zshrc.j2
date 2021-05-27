@@ -33,7 +33,7 @@ function awsprofile() {
         unset AWS_PROFILE
         if [ ! "$profile" == "unset" ]; then
             echo >&2 "No AWS profile with name $profile. Unsetting for safety."
-	    echo >&2 "(prod or staging, probably)"
+            echo >&2 "(prod or staging, probably)"
             return 1
         fi
     fi

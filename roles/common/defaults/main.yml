@@ -6,7 +6,7 @@ tmuxinator_version: '2.0.1'  # as of 10-May-2020  - prefix of 'v' is applied in 
 fisher_version: '3.2.9'
 n_version: 'v6.7.0'  # released 25-July-2020
 weechat_version: 'v3.0'  # released 11-Nov-2020
-pyenv_global_version: '3.9.1'
+pyenv_global_version: '3.9.4'
 rbenv_global_version: '2.7.1'
 
 ansible_check_mode: false  # No idea wtf is going on with this

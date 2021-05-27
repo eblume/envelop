@@ -25,7 +25,7 @@ Next, either manually copy over the .zshrc template or else manually add this li
  
     eval "$(pyenv init -)"
 
-And then run `pyenv install 3.9.1` (or whatever other version you prefer) and `pyenv global 3.9.1`.
+And then run `pyenv install 3.9.4` (or whatever other version you prefer) and `pyenv global 3.9.4`.
 
 OPTIONAL: Then, launch a rosetta-2 enabled terminal, and install homebrew again (this time in /usr/local, which will be selected by default).
 
