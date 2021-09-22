@@ -79,11 +79,6 @@ export PATH="/opt/homebrew/opt/sqlite/bin:$PATH"
 # export CPPFLAGS="-I/opt/homebrew/opt/sqlite/include"
 # export PKG_CONFIG_PATH="/opt/homebrew/opt/sqlite/lib/pkgconfig"
 
-
-### Pyenv
-eval "$(pyenv init -)"
-eval "$(pyenv virtualenv-init -)"
-
 ### rbenv
 export RUBY_CONFIGURE_OPTS="--with-openssl-dir=$(brew --prefix openssl@1.1)"
 
@@ -94,3 +89,20 @@ export PATH="{{ ansible_env.HOME }}/.npm-global/bin:{{ user_bin_dir}}:$PATH"
 
 ### Poetry
 export PATH="{{ansible_env.HOME}}/.poetry/bin:$PATH"
+
+
+### AWS Session Manager
+# Via https://docs.aws.amazon.com/systems-manager/latest/userguide/session-manager-working-with-install-plugin.html#install-plugin-macos
+# (Disabled due to issue with opal-security in homebrew not working on arm64)
+# export PATH="/Users/erich/tmp/sessionmanager-bundle/bin:$PATH"
+
+
+### Pyenv
+# Set paths (pyenv wants this in ~/.zprofile, TODO)
+
+export PYENV_ROOT="$HOME/.pyenv"
+export PATH="$PYENV_ROOT/bin:$PATH"
+eval "$(pyenv init --path)"
+
+# Load pyenv
+eval "$(pyenv init -)"
