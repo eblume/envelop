@@ -1,9 +1,7 @@
 ---
-neovim_version: 'b0599d270841b0fe721b6a1b081763f8cc291a73'  # as of 15-March-2021. Needed to fix issue with arm64 builds.
-# TODO - let's fix the above neovim git tag issue ^^
+neovim_version: 'v0.5.0'  # as of 15-March-2021. Needed to fix issue with arm64 builds.
 tmux_version: '3.1b'  # as of 10-May-2020
 tmuxinator_version: '2.0.1'  # as of 10-May-2020  - prefix of 'v' is applied in build templ.
-fisher_version: '3.2.9'
 n_version: 'v6.7.0'  # released 25-July-2020
 weechat_version: 'v3.0'  # released 11-Nov-2020
 pyenv_global_version: '3.9.4'

@@ -110,8 +110,11 @@
   register: pip_result
   changed_when: pip_result.rc == 0 and 'Successfully installed' in pip_result.stdout_lines[-1]
 
-
 # There are also Ruby and Javascript providers we could do here
+
+
+- name: Install coc.vim language servers
+  command: "{{ user_bin_dir}}/nvim -c 'CocInstall coc-yaml coc-pyright' -c quitall"
 
 - name: Create link to nvim called 'vim'
   file:
