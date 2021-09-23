@@ -87,6 +87,12 @@ Plug 'tpope/vim-eunuch'
 " TODO - maybe choose between ale or coc.vim, both do similar things
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
 
+" yaml - code folding and indent lines
+Plug 'pedrohdz/vim-yaml-folds'
+
+" Indent Lines
+Plug 'Yggdroot/indentLine'
+
 " All of your Plugins must be added before the following line
 call plug#end()
 """"""""""""""" End of plugins stuff
@@ -123,7 +129,7 @@ set dir=~/.vim/sessions
 autocmd BufEnter * :syntax sync fromstart
 
 " Set <Leader> to ' ' and <localleader> to ","
-let mapleader=" "
+let mapleader="`"
 let maplocalleader=","
 
 " Take off the training wheels
@@ -186,7 +192,7 @@ function! s:check_back_space() abort
 endfunction
 
 " Use <leader>.to trigger completion. (originally c-space)
-inoremap <silent><expr> <leader>. coc#refresh()
+inoremap <silent><expr> <leader><space> coc#refresh()
 
 " Make <CR> auto-select the first completion item and notify coc.nvim to
 " format on enter, <cr> could be remapped by other vim plugin
@@ -390,8 +396,11 @@ set nojoinspaces
 " Ignore pyc files
 set wildignore=*.pyc
 
+" Disable indent lines by default (we will re-enable when wanted)
+let g:indentLine_enabled = 0
+
 " YAML files need 2 space indentation
-au FileType yaml setlocal tabstop=2 expandtab shiftwidth=2 softtabstop=2
+au FileType yaml setlocal tabstop=2 expandtab shiftwidth=2 softtabstop=2 indentLine_enabled=1
 
 " JS files need 2 space indentation
 au FileType javascript setlocal tabstop=2 expandtab shiftwidth=2 softtabstop=2
@@ -415,6 +424,7 @@ endif
 let g:airline_symbols.linenr=''
 
 " Linting
+let g:ale_disable_lsp = 1 " Disable ALE LSP, we use coc.vim instead
 let g:ale_sign_column_always = 1 " always show the gutter
 let g:ale_change_sign_column_color = 1 " Change the gutter's color
 let g:airline#extensions#ale#enabled = 1
@@ -427,6 +437,7 @@ let g:airline#extensions#ale#enabled = 1
 let g:ale_linters = {
 \  'javascript': ['eslint'],
 \  'python': ['flake8', 'black', 'mypy'],
+\  'yaml': ['yamllint'],
 \}
 let g:ale_fixers = {
 \  '*': ['remove_trailing_lines', 'trim_whitespace'],

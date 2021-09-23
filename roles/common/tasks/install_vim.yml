@@ -41,6 +41,7 @@
       - fzf
       - bat
       - ripgrep
+      - yamllint
 
 
 # Details: https://github.com/sharkdp/bat/issues/938
