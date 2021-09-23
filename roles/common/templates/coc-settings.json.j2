@@ -1,7 +1,11 @@
 // {{ ansible_managed }}
+// vim: set syntax=jsonc:
 {
   "yaml.schemas": {
+      "http://json.schemastore.org/kustomization": "kustomization.yaml",
       "kubernetes": "/*.yaml"
   }
+
+  "yaml.format.enable": true,  // Enables yaml auto-formatting
 
 }
