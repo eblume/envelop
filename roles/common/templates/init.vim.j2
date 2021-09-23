@@ -415,6 +415,7 @@ au FileType json setlocal tabstop=2 expandtab shiftwidth=2 softtabstop=2
 set clipboard+=unnamedplus
 
 " Airline config (for statusline)
+let g:airline#extensions#coc#enabled = 1
 let g:airline#parts#ffenc#skip_expected_string='utf-8[unix]'  " If it's utf-8 I don't care
 " This next one is because I can't possibly imagine caring about the % through a doc
 let g:airline_section_z = airline#section#create(['', 'linenr', 'maxlinenr', '%3v'])
