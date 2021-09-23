@@ -114,7 +114,13 @@
 
 
 - name: Install coc.vim language servers
-  command: "{{ user_bin_dir}}/nvim -c 'CocInstall coc-yaml coc-pyright' -c quitall"
+  command: "{{ user_bin_dir}}/nvim -c 'CocInstall coc-yaml coc-pyright coc-json' -c quitall"
+
+- name: Configure coc.vim
+  template:
+    src: coc-settings.json.j2
+    dest: "{{ ansible_env.HOME }}/.config/nvim/coc-settings.json"
+    mode: "u=rw,g=,o="
 
 - name: Create link to nvim called 'vim'
   file:
