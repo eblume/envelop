@@ -128,9 +128,8 @@ set dir=~/.vim/sessions
 " Syntax highlight syncing from the top of the file (fixes Python)
 autocmd BufEnter * :syntax sync fromstart
 
-" Set <Leader> to ' ' and <localleader> to ","
-let mapleader="`"
-let maplocalleader=","
+" Set <Leader> to ','
+let mapleader=","
 
 " Take off the training wheels
 inoremap  <Up>     <NOP>
@@ -191,7 +190,7 @@ function! s:check_back_space() abort
   return !col || getline('.')[col - 1]  =~# '\s'
 endfunction
 
-" Use <leader>.to trigger completion. (originally c-space)
+" Use <leader><space> to trigger completion. (originally c-space)
 inoremap <silent><expr> <leader><space> coc#refresh()
 
 " Make <CR> auto-select the first completion item and notify coc.nvim to
